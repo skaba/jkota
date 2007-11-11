@@ -76,6 +76,6 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 
 	@Override
 	public void firstTime() {
-		//new SwingSettings(this);
+		new SwingSettings(this);
 	}
 }

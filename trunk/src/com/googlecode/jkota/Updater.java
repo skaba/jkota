@@ -113,7 +113,7 @@ public class Updater extends TimerTask {
 				return null;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
-				System.err.println("Güvenlik kodu doğru çözülemedi");
+				System.err.println("Login problemi");
 				return null;
 			}
 			WebTable list=response.getFirstMatchingTable(
