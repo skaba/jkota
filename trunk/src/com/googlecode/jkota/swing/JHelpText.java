@@ -1,4 +1,4 @@
-package com.google.code.jkota;
+package com.googlecode.jkota.swing;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;

@@ -1,4 +1,5 @@
-package com.google.code.jkota.swing;
+package com.googlecode.jkota.swing;
+
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,8 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.google.code.jkota.BaseADSLKota;
-import com.google.code.jkota.JHelpText;
+import com.googlecode.jkota.BaseADSLKota;
+
 
 
 

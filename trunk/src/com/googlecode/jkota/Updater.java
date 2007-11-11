@@ -1,4 +1,5 @@
-package com.google.code.jkota;
+package com.googlecode.jkota;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
