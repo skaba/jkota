@@ -1,0 +1,29 @@
+<project name="jkota" default="jar">
+	<path id="libs">
+	    <fileset dir="lib">
+	        <include name="*.jar"/>
+	    </fileset>
+	</path>
+	
+	<target name="compile">
+		<delete dir="build"/>
+		<mkdir dir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes" classpathref="libs"/>
+		<copy todir="build/classes" file="favicon.gif"/>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<delete dir="dist"/>
+		<mkdir dir="dist"/>
+		<manifest file="build/manifest.mf">
+			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingADSLKota"/>
+			<attribute name="Class-Path" value="../lib/Tidy.jar ../lib/httpunit.jar ../lib/blowfishj.jar"/>
+		</manifest>
+		<jar destfile="dist/jkota.jar" basedir="build/classes" manifest="build/manifest.mf"/>
+	</target>
+	<target name="clean">
+		<delete dir="build"/>
+		<delete dir="dist"/>
+	</target>
+	
+</project>
