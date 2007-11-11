@@ -141,7 +141,7 @@ public class Updater extends TimerTask {
 		return null;
 	}
 	
-	public static void copyStream(InputStream in,OutputStream out) throws IOException {
+	private void copyStream(InputStream in,OutputStream out) throws IOException {
 		byte buf[]=new byte[8*1024];
 		while(true) {
 			int read=in.read(buf);
