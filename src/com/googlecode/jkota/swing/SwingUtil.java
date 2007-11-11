@@ -1,4 +1,4 @@
-package com.google.code.jkota.swing;
+package com.googlecode.jkota.swing;
 import java.awt.Component;
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -1,4 +1,5 @@
-package com.google.code.jkota.swing;
+package com.googlecode.jkota.swing;
+
 
 import java.awt.AWTException;
 import java.awt.MenuItem;
@@ -13,7 +14,8 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.google.code.jkota.BaseADSLKota;
+import com.googlecode.jkota.BaseADSLKota;
+
 
 
 public class SwingADSLKota extends BaseADSLKota implements ActionListener {

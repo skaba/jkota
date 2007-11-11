@@ -1,4 +1,5 @@
-package com.google.code.jkota;
+package com.googlecode.jkota;
+
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +9,7 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Timer;
+
 
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
