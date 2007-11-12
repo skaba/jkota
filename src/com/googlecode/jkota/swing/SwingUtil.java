@@ -6,9 +6,10 @@ import java.io.StringWriter;
 import javax.swing.JOptionPane;
 
 public class SwingUtil {
-	public static void error(Component parent,Exception e) {
+	public static void error(Component parent,Exception e,String title) {
 		StringWriter out=new StringWriter();
 		e.printStackTrace(new PrintWriter(out));
-		JOptionPane.showMessageDialog(parent, out.getBuffer(), "Hata", JOptionPane.ERROR_MESSAGE);
+		out.flush();
+		JOptionPane.showMessageDialog(parent, out.getBuffer(), title, JOptionPane.ERROR_MESSAGE);
 	}
 }

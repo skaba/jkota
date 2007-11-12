@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Timer;
 
-
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
 
@@ -36,20 +35,21 @@ public abstract class BaseADSLKota {
 	}
 	
 	public void storeSettings() throws IOException {
-		settings.store(
-				new BlowfishOutputStream(
-						masterKey,0,masterKey.length,
-						new FileOutputStream(System.getProperty("user.home") + File.separator+".jkota")
-				),
-				""
+		BlowfishOutputStream out=new BlowfishOutputStream(
+				masterKey,0,masterKey.length,
+				new FileOutputStream(System.getProperty("user.home") + File.separator+".jkota")
 		);
+		settings.store(out,"");
+		out.flush();
+		out.close();
 	}
 	
 	public void readSettings() throws IOException {
 		File settingsFile=new File(System.getProperty("user.home") + File.separator+".jkota");
 		if(!settingsFile.exists())
 			firstTime();
-		settings.load(new BlowfishInputStream(masterKey,0,masterKey.length,new FileInputStream(settingsFile)));
+		else
+			settings.load(new BlowfishInputStream(masterKey,0,masterKey.length,new FileInputStream(settingsFile)));
 	}
 	
 	public void setSetting(String key,String value) { settings.setProperty(key, value); }

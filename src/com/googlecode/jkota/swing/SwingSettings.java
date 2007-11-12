@@ -78,7 +78,7 @@ public class SwingSettings extends JDialog implements /*WindowListener,*/ Action
 		try {
 			adslKota.storeSettings();
 		} catch (IOException e1) {
-			SwingUtil.error(this, e1);
+			SwingUtil.error(this, e1,"Ayarlar kaydedilirken hata");
 		}
 		dispose();
 	}	
