@@ -49,7 +49,7 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		try {
 			readSettings();
 		} catch (IOException e) {
-			SwingUtil.error(null, e);
+			SwingUtil.error(null, e,"Ayarlar okunurken hata");
 		}
 		startTimer();
 	}
