@@ -10,6 +10,7 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -32,7 +33,9 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		quit=new MenuItem("Çıkış");
 		quit.addActionListener(this);
 		trayMenu.add(quit);
-		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage("favicon.gif"),null,trayMenu);
+		ClassLoader loader=getClass().getClassLoader();
+		URL fileLocation=loader.getResource("favicon.gif");
+		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(fileLocation),null,trayMenu);
 		try {
 			tray.add(icon);
 		} catch (AWTException e) {
