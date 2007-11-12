@@ -25,6 +25,15 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 	private TrayIcon icon;
 	
 	public SwingADSLKota() {
+		String masterKey=null;
+		while(masterKey==null)
+			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
+		setMasterKey(masterKey);
+		try {
+			readSettings();
+		} catch (IOException e) {
+			SwingUtil.error(null, e,"Ayarlar okunurken hata");
+		}
 		SystemTray tray =SystemTray.getSystemTray();
 		PopupMenu trayMenu=new PopupMenu();
 		settings=new MenuItem("Ayarlar");
@@ -41,15 +50,6 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		} catch (AWTException e) {
 			e.printStackTrace();
 			System.exit(1);
-		}
-		String masterKey=null;
-		while(masterKey==null)
-			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
-		setMasterKey(masterKey);
-		try {
-			readSettings();
-		} catch (IOException e) {
-			SwingUtil.error(null, e,"Ayarlar okunurken hata");
 		}
 		startTimer();
 	}
