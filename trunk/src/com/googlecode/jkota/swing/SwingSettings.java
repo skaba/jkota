@@ -3,34 +3,36 @@ package com.googlecode.jkota.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import com.googlecode.jkota.BaseADSLKota;
 
-
-
-
-public class SwingSettings extends JDialog implements /*WindowListener,*/ ActionListener {
+public class SwingSettings extends JDialog implements ActionListener {
 	
 	private BaseADSLKota adslKota;
 	private JHelpText userName,password,apiKey;
+	private JSpinner updateInterval;
 	
 	public SwingSettings(BaseADSLKota adslKota) {
 		super((Frame)null,"ADSL Kota",true);
 		this.adslKota=adslKota;
 		setLayout(new BorderLayout());
-		JPanel settingsPanel=new JPanel(new GridLayout(3,3));
+		JPanel settingsPanel=new JPanel(new GridLayout(0,2));
 		settingsPanel.add(new JLabel("Kullanıcı adı:"));
 		userName=new JHelpText(adslKota.getSetting("username"),"http://code.google.com/p/jkota/",false);
 		settingsPanel.add(userName);
@@ -40,6 +42,12 @@ public class SwingSettings extends JDialog implements /*WindowListener,*/ Action
 		settingsPanel.add(new JLabel("API Key:"));
 		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/",false);
 		settingsPanel.add(apiKey);
+		settingsPanel.add(new JLabel("Günceleme sıklığı:"));
+		updateInterval=new JSpinner(new SpinnerNumberModel(adslKota.getIntSetting("updateinterval"),0,120,10));
+		JPanel updateIntervalPanel=new JPanel(new FlowLayout());
+		updateIntervalPanel.add(updateInterval);
+		updateIntervalPanel.add(new JLabel("dk."));
+		settingsPanel.add(updateIntervalPanel);
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 		JButton ok=new JButton("Tamam");
 		ok.addActionListener(this);
@@ -71,10 +79,10 @@ public class SwingSettings extends JDialog implements /*WindowListener,*/ Action
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("saving sets");
 		adslKota.setSetting("username", userName.getText());
 		adslKota.setSetting("password", password.getText());
 		adslKota.setSetting("apikey", apiKey.getText());
+		adslKota.setIntSetting("updateinterval", (Integer)updateInterval.getModel().getValue());
 		try {
 			adslKota.storeSettings();
 		} catch (IOException e1) {
