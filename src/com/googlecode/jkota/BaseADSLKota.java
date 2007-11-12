@@ -1,6 +1,5 @@
 package com.googlecode.jkota;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,7 +30,7 @@ public abstract class BaseADSLKota {
 
 	public final void startTimer() {
 		Timer t = new Timer();
-		t.schedule(new Updater(this),new Date(), 60000);
+		t.schedule(new Updater(this),new Date(), 60000*getIntSetting("updateinterval"));
 	}
 	
 	public void storeSettings() throws IOException {
@@ -54,4 +53,12 @@ public abstract class BaseADSLKota {
 	
 	public void setSetting(String key,String value) { settings.setProperty(key, value); }
 	public String getSetting(String key) { return settings.getProperty(key); }
+	public void setIntSetting(String key,int value) { settings.setProperty(key, Integer.toString(value)); }
+	public int getIntSetting(String key) {
+		String valueString=settings.getProperty(key);
+		if(valueString==null)
+			return 0;
+		else
+			return Integer.parseInt(valueString); 
+	}
 }
