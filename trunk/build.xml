@@ -1,4 +1,10 @@
 <project name="jkota" default="jar">
+	<taskdef name="launch4j"
+		onerror="report"
+		classpath="../../launch4j/launch4j.jar" 
+		classname="net.sf.launch4j.ant.Launch4jTask"
+	/>
+	<property file="build.properties"/>
 	<path id="libs">
 	    <fileset dir="lib">
 	        <include name="*.jar"/>
@@ -13,17 +19,53 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<delete dir="dist"/>
-		<mkdir dir="dist"/>
 		<manifest file="build/manifest.mf">
 			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingADSLKota"/>
-			<attribute name="Class-Path" value="../lib/Tidy.jar ../lib/httpunit.jar ../lib/blowfishj.jar"/>
+			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar"/>
 		</manifest>
-		<jar destfile="dist/jkota.jar" basedir="build/classes" manifest="build/manifest.mf"/>
+		<jar destfile="jkota.jar" basedir="build/classes" manifest="build/manifest.mf"/>
 	</target>
+	<target name="distcopy" depends="jar">
+		<delete dir="dist"/>
+		<mkdir dir="dist"/>
+		<mkdir dir="dist/lib"/>
+		<copy todir="dist/lib">
+			<fileset dir="lib">
+				<include name="*.jar"/>
+			</fileset>
+		</copy>
+		<copy file="jkota.jar" todir="dist"/>
+	</target>
+	<target name="windows_package" depends="distcopy">
+		<launch4j>
+			<config
+				outfile="dist/jkota.exe"
+				dontwrapjar="true"
+				icon="favicon.ico"
+				headertype="gui"
+				jarpath="jkota.jar"
+				customProcName="true"
+				stayAlive="false">
+				<jre minVersion="1.6.0" />
+			</config>
+		</launch4j>
+		<zip destfile="dist/jkota-${version}.zip" basedir="dist"/>
+	</target>
+	
+	<target name="unix_package" depends="distcopy">
+		<echo file="dist/jkota">#!/bin/sh
+java -jar jkota.jar
+		</echo>
+	    <chmod file="dist/jkota" perm="755"/>
+		<tar destfile="dist/jkota.tar" basedir="dist"/>
+		<gzip src="dist/jkota.tar" destfile="dist/jkota-${version}.tar.gz"/>
+		<delete file="dist/jkota.tar"/>
+	</target>
+	
 	<target name="clean">
 		<delete dir="build"/>
 		<delete dir="dist"/>
+		<delete file="jkota.jar"/>
 	</target>
 	
 </project>
