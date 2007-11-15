@@ -14,19 +14,19 @@
 	</path>
 	
 	<target name="compile">
-		<delete dir="build"/>
-		<mkdir dir="build/classes"/>
-		<javac srcdir="src" destdir="build/classes" classpathref="libs"/>
-		<copy todir="build/classes" file="favicon.gif"/>
+		<delete dir="build_dir"/>
+		<mkdir dir="build_dir/classes"/>
+		<javac srcdir="src" destdir="build_dir/classes" classpathref="libs"/>
+		<copy todir="build_dir/classes" file="favicon.gif"/>
 	</target>
 	
 	<target name="jar" depends="compile">
 		<delete file="jkota.jar"/>
-		<manifest file="build/manifest.mf">
+		<manifest file="build_dir/manifest.mf">
 			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingADSLKota"/>
 			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar"/>
 		</manifest>
-		<jar destfile="jkota.jar" basedir="build/classes" manifest="build/manifest.mf"/>
+		<jar destfile="jkota.jar" basedir="build_dir/classes" manifest="build_dir/manifest.mf"/>
 	</target>
 	
 	<target name="distcopy" depends="jar">
@@ -63,6 +63,20 @@ java -jar jkota.jar
 		<chmod file="dist/jkota" perm="755"/>
 	</target>
 	
+	<target name="package_source" depends="clean">
+		<delete dir="dist"/>
+		<mkdir dir="dist"/>
+		<zip destfile="dist/jkota-${version}-src.zip" basedir=".">
+			<exclude name="**dist**"/>
+			<exclude name="**build_dir**"/>
+			<exclude name="**bin**"/>
+			<exclude name="jkota.jar"/>
+			<exclude name="**.html"/>
+			<exclude name=".**"/>
+			<exclude name="**.settings**"/>
+		</zip>
+	</target>
+	
 	<target name="package_unix">
 		<antcall target="distcopy"/>
 		<antcall target="sh"/>
@@ -85,10 +99,19 @@ java -jar jkota.jar
 		<gzip src="dist/jkota.tar" destfile="dist/jkota-${version}.tar.gz"/>
 		<delete file="dist/jkota.tar"/>
 		<zip destfile="dist/jkota-${version}.zip" basedir="dist"/>
+		<zip destfile="dist/jkota-${version}-src.zip" basedir=".">
+			<exclude name="**dist**"/>
+			<exclude name="**build_dir**"/>
+			<exclude name="**bin**"/>
+			<exclude name="jkota.jar"/>
+			<exclude name="**.html"/>
+			<exclude name=".**"/>
+			<exclude name="**.settings**"/>
+		</zip>
 	</target>
 	
 	<target name="clean">
-		<delete dir="build"/>
+		<delete dir="build_dir"/>
 		<delete dir="dist"/>
 		<delete file="jkota.jar"/>
 	</target>
