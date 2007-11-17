@@ -38,6 +38,11 @@
 				<include name="*.jar"/>
 			</fileset>
 		</copy>
+		<copy todir="dist/lisanslar">
+			<fileset dir="lisanslar">
+				<include name="*.LICENSE"/>
+			</fileset>
+		</copy>
 		<copy file="jkota.jar" todir="dist"/>
 	</target>
 	
@@ -94,11 +99,11 @@ java -jar jkota.jar
 	<target name="package_all">
 		<antcall target="distcopy"/>
 		<antcall target="sh"/>
-		<antcall target="exe"/>
 		<tar destfile="dist/jkota.tar" basedir="dist"/>
 		<gzip src="dist/jkota.tar" destfile="dist/jkota-${version}.tar.gz"/>
 		<delete file="dist/jkota.tar"/>
-		<zip destfile="dist/jkota-${version}.zip" basedir="dist"/>
+		<antcall target="exe"/>
+		<zip destfile="dist/jkota-${version}.zip" basedir="dist" excludes="jkota,jkota-${version}.tar.gz"/>
 		<zip destfile="dist/jkota-${version}-src.zip" basedir=".">
 			<exclude name="**dist**"/>
 			<exclude name="**build_dir**"/>
