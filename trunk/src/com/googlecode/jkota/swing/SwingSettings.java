@@ -40,7 +40,7 @@ public class SwingSettings extends JDialog implements ActionListener {
 		password=new JHelpText(adslKota.getSetting("password"),"http://code.google.com/p/jkota/",true);
 		settingsPanel.add(password);
 		settingsPanel.add(new JLabel("API Key:"));
-		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/",false);
+		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/wiki/APIKeyNedir",false);
 		settingsPanel.add(apiKey);
 		settingsPanel.add(new JLabel("Günceleme sıklığı:"));
 		updateInterval=new JSpinner(new SpinnerNumberModel(adslKota.getIntSetting("updateinterval"),0,120,10));
