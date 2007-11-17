@@ -1,0 +1,3 @@
+= API Key Nedir? =
+
+JKota ADSL Kota sayfasındaki güvenlik kodunu (captcha) çözme için CAPTCHA Killer (http://www.captchakiller.com) servisini kullanmaktadır. Bu servisi kullanabilmek için üye olup http://www.captchakiller.com/upload_captcha adresinden API key'inizi öğrenmeniz gerekmektedir.
