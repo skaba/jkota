@@ -1,4 +1,4 @@
-= Kullanm Dökümanı =
+= Kullanım Dökümanı =
 
 == Giriş ==
 JKota, Türk Telekom kotalı ADSL aboneleri için kota izleme programıdır. Kurulumdan sonra sistem tepsisine yerleşir ve internet kullanımına bağlı olarak kota miktarını gözlemler. Belirli periyotlarla güncelleme yaptığı için kota takibi rahat olur, ayrıca kullanıcıları Türk Telekomun sitesine gitme zahmetinden kurtarır. Java ile yazıldığından birden fazla platform üstünde çalışma imkânı vardır.
