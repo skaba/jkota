@@ -29,18 +29,18 @@ public class SwingSettings extends JDialog implements ActionListener {
 	private JSpinner updateInterval;
 	
 	public SwingSettings(BaseADSLKota adslKota) {
-		super((Frame)null,"ADSL Kota",true);
+		super((Frame)null,"Yapılandırma",true);
 		this.adslKota=adslKota;
 		setLayout(new BorderLayout());
 		JPanel settingsPanel=new JPanel(new GridLayout(0,2));
 		settingsPanel.add(new JLabel("Kullanıcı adı:"));
-		userName=new JHelpText(adslKota.getSetting("username"),"http://code.google.com/p/jkota/",false);
+		userName=new JHelpText(adslKota.getSetting("username"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",false);
 		settingsPanel.add(userName);
 		settingsPanel.add(new JLabel("Şifre:"));
-		password=new JHelpText(adslKota.getSetting("password"),"http://code.google.com/p/jkota/",true);
+		password=new JHelpText(adslKota.getSetting("password"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",true);
 		settingsPanel.add(password);
 		settingsPanel.add(new JLabel("API Key:"));
-		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/wiki/APIKeyNedir",false);
+		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",false);
 		settingsPanel.add(apiKey);
 		settingsPanel.add(new JLabel("Günceleme sıklığı:"));
 		updateInterval=new JSpinner(new SpinnerNumberModel(adslKota.getIntSetting("updateinterval"),10,120,10));
@@ -54,17 +54,9 @@ public class SwingSettings extends JDialog implements ActionListener {
 		getContentPane().add(ok,BorderLayout.SOUTH);
 		setSize(300,200);
 		setResizable(false);
-		center();
+		SwingUtil.center(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
-	}
-	
-	public void center() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		int x = (screenSize.width - getWidth()) / 2;
-		int y = (screenSize.height - getHeight()) / 2;
-		setLocation(x, y);
 	}
 
 	public void windowActivated(WindowEvent e) {}
