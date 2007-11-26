@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Frame;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.swing.JDialog;
