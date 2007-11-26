@@ -5,7 +5,6 @@ import java.awt.Toolkit;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 public class SwingUtil {
