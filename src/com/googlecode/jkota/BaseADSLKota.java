@@ -30,7 +30,7 @@ public abstract class BaseADSLKota {
 
 	public final void startTimer() {
 		Timer t = new Timer();
-		t.schedule(new Updater(this),new Date(), 60000*getIntSetting("updateinterval"));
+		t.schedule(new Updater(this),new Date(), 60000*getIntSetting("updateinterval",10));
 	}
 	
 	public void storeSettings() throws IOException {
@@ -54,10 +54,10 @@ public abstract class BaseADSLKota {
 	public void setSetting(String key,String value) { settings.setProperty(key, value); }
 	public String getSetting(String key) { return settings.getProperty(key); }
 	public void setIntSetting(String key,int value) { settings.setProperty(key, Integer.toString(value)); }
-	public int getIntSetting(String key) {
+	public int getIntSetting(String key,int defaultSetting) {
 		String valueString=settings.getProperty(key);
 		if(valueString==null)
-			return 0;
+			return defaultSetting;
 		else
 			return Integer.parseInt(valueString); 
 	}
