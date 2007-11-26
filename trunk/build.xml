@@ -16,7 +16,7 @@
 	<target name="compile">
 		<delete dir="build_dir"/>
 		<mkdir dir="build_dir/classes"/>
-		<javac srcdir="src" destdir="build_dir/classes" classpathref="libs"/>
+		<javac source="1.6" target="1.6" srcdir="src" destdir="build_dir/classes" classpathref="libs"/>
 		<copy todir="build_dir/classes" file="favicon.gif"/>
 		<copy todir="build_dir/classes" file="about.html"/>
 		<copy todir="build_dir/classes" file="thx.html"/>
