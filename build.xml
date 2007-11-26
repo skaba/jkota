@@ -18,6 +18,8 @@
 		<mkdir dir="build_dir/classes"/>
 		<javac srcdir="src" destdir="build_dir/classes" classpathref="libs"/>
 		<copy todir="build_dir/classes" file="favicon.gif"/>
+		<copy todir="build_dir/classes" file="about.html"/>
+		<copy todir="build_dir/classes" file="thx.html"/>
 	</target>
 	
 	<target name="jar" depends="compile">

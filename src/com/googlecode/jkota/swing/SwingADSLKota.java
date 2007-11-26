@@ -21,7 +21,7 @@ import com.googlecode.jkota.BaseADSLKota;
 
 public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 
-	private MenuItem quit,settings;
+	private MenuItem quit,settings,about;
 	private TrayIcon icon;
 	
 	public SwingADSLKota() {
@@ -42,6 +42,9 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		quit=new MenuItem("Çıkış");
 		quit.addActionListener(this);
 		trayMenu.add(quit);
+		about=new MenuItem("Hakkında");
+		about.addActionListener(this);
+		trayMenu.add(about);
 		ClassLoader loader=getClass().getClassLoader();
 		URL fileLocation=loader.getResource("favicon.gif");
 		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(fileLocation),null,trayMenu);
@@ -70,6 +73,8 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 			System.exit(0);
 		if(e.getSource()==settings)
 			new SwingSettings(this);
+		if(e.getSource()==about)
+			new SwingAbout();
 	}
 
 	@Override
