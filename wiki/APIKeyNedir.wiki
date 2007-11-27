@@ -1,3 +1,0 @@
-= API Key Nedir? =
-
-Türk Telekom üye giriş kontrolü için Captcha sistemini kullandığından Jkota bu aşamayı geçmek için captchakiller'ı kullanır. Bu nedenle programın kurulumuna geçmeden önce http://www.captchakiller.com adresinden üyelik almanız gerekmektedir. Üyelik gerçekleştikten sonra size tahsis edilen API anahtarı program işleyişinde kullanılacaktır.
