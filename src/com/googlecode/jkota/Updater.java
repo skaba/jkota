@@ -162,8 +162,6 @@ public class Updater extends TimerTask {
 			adslKota.updateKota(quotaString);
 			break;
 		}
-		System.out.println(Runtime.getRuntime().freeMemory());
 		System.gc();//Garbage collect at the end of update
-		System.out.println(Runtime.getRuntime().freeMemory());
 	}
 }
