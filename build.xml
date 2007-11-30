@@ -24,7 +24,7 @@
 	/>
 	
 	<property file="build.properties"/>
-	<property file="../../googlecode-login.properties."/>
+	<property file="../../googlecode-login.properties"/>
 	<target name="init">
 		<svn>
 			<status path="." revisionproperty="revision"/>
@@ -153,11 +153,11 @@ java -jar jkota.jar
 		<delete file="jkota.jar"/>
 	</target>
 	
-	<target name="upload" depends="jar">
+	<target name="upload" depends="all_packages">
 		<gcupload
 			username="${gc.username}"
 			password="${gc.password}"
-			projectname="ant-googlecode"
+			projectname="jkota"
 			filename="dist/jkota-${fullversion}.tar.gz"
 			targetfilename="jkota-${fullversion}.tar.gz"
 			summary="JKota ${fullversion} Linux paketi"
@@ -165,7 +165,7 @@ java -jar jkota.jar
 		<gcupload
 			username="${gc.username}"
 			password="${gc.password}"
-			projectname="ant-googlecode"
+			projectname="jkota"
 			filename="dist/jkota-${fullversion}.zip"
 			targetfilename="jkota-${fullversion}.zip"
 			summary="JKota ${fullversion} Windows paketi"
@@ -173,7 +173,7 @@ java -jar jkota.jar
 		<gcupload
 			username="${gc.username}"
 			password="${gc.password}"
-			projectname="ant-googlecode"
+			projectname="jkota"
 			filename="dist/jkota-${fullversion}-src.zip"
 			targetfilename="jkota-${fullversion}-src.zip"
 			summary="JKota ${fullversion} kaynak kodu"
