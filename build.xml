@@ -17,8 +17,14 @@
 		classpathref="svnantlibs"
 		classname="org.tigris.subversion.svnant.SvnTask"
 	/>
+	<taskdef
+		classpath="../../ant-googlecode/ant-googlecode.jar"
+		classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask"
+		name="gcupload"
+	/>
 	
 	<property file="build.properties"/>
+	<property file="../../googlecode-login.properties."/>
 	<target name="init">
 		<svn>
 			<status path="." revisionproperty="revision"/>
@@ -100,7 +106,8 @@ java -jar jkota.jar
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
 			<exclude name="jkota.jar"/>
-			<exclude name="**.html"/>
+			<exclude name="resultform.html"/>
+			<exclude name="uploadform.html"/>
 			<exclude name=".**"/>
 			<exclude name="**.settings**"/>
 		</zip>
@@ -144,6 +151,33 @@ java -jar jkota.jar
 		<delete dir="build_dir"/>
 		<delete dir="dist"/>
 		<delete file="jkota.jar"/>
+	</target>
+	
+	<target name="upload" depends="jar">
+		<gcupload
+			username="${gc.username}"
+			password="${gc.password}"
+			projectname="ant-googlecode"
+			filename="dist/jkota-${fullversion}.tar.gz"
+			targetfilename="jkota-${fullversion}.tar.gz"
+			summary="JKota ${fullversion} Linux paketi"
+		/>
+		<gcupload
+			username="${gc.username}"
+			password="${gc.password}"
+			projectname="ant-googlecode"
+			filename="dist/jkota-${fullversion}.zip"
+			targetfilename="jkota-${fullversion}.zip"
+			summary="JKota ${fullversion} Windows paketi"
+		/>
+		<gcupload
+			username="${gc.username}"
+			password="${gc.password}"
+			projectname="ant-googlecode"
+			filename="dist/jkota-${fullversion}-src.zip"
+			targetfilename="jkota-${fullversion}-src.zip"
+			summary="JKota ${fullversion} kaynak kodu"
+		/>
 	</target>
 	
 </project>
