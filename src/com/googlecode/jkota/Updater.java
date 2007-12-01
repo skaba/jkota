@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.HTMLElement;
 import com.meterware.httpunit.HTMLElementPredicate;
+import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebResponse;
@@ -29,6 +30,7 @@ public class Updater extends TimerTask {
 		conversation=new WebConversation();
 		conversation.setHeaderField("User-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 		logger=BaseADSLKota.getLogger();
+		HttpUnitOptions.setScriptingEnabled(false);//Disable Javascript parsing
 	}
 	
 	public String ExtractCaptcha() {
