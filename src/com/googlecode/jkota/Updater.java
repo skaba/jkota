@@ -8,7 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.TimerTask;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.xml.sax.SAXException;
 
 import com.meterware.httpunit.HTMLElement;
@@ -21,17 +22,20 @@ import com.meterware.httpunit.WebTable;
 public class Updater extends TimerTask {
 	private WebConversation conversation;
 	private BaseADSLKota adslKota;
-	
+	private Logger logger;
+	//private static Logger logger= Logger.getLogger("com.googlecode.jkota.Updater");
 	public Updater(BaseADSLKota adslKota) {
 		this.adslKota=adslKota;
 		conversation=new WebConversation();
 		conversation.setHeaderField("User-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
+		logger=BaseADSLKota.getLogger();
 	}
 	
 	public String ExtractCaptcha() {
 		try {
 			WebResponse response=conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/jcaptcha");
 			copyStream(response.getInputStream(), new FileOutputStream(System.getProperty("java.io.tmpdir")+"/captcha"));
+			logger.info("Captcha alındı");
 			response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/uploadform.html");
 			WebForm upload_captcha=response.getForms()[0];
 			upload_captcha.setParameter("api_key", adslKota.getSetting("apikey"));
@@ -44,6 +48,7 @@ public class Updater extends TimerTask {
 					guid=responseText.substring(20);
 					
 			}
+			logger.info("Captcha gönderildi");
 			guid=guid.substring(0,36);
 			response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/resultform.html");
 			WebForm get_result=response.getForms()[0];
@@ -63,22 +68,18 @@ public class Updater extends TimerTask {
 				}
 			}
 			(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
+			logger.info("Captcha çözüldü: "+captcha);
 			return captcha;
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Güvenlik kodu çözülürken hata",e);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Güvenlik kodu çözülürken hata",e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Güvenlik kodu çözülürken hata",e);
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Güvenlik kodu çözülürken hata",e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Güvenlik kodu çözülürken hata",e);
 		}
 		(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
 		return "";
@@ -95,16 +96,18 @@ public class Updater extends TimerTask {
 			String submitText=response.getText();
 			if(submitText.indexOf("İşlem hatası")>=0) {
 				System.out.println("Login problemi");
+				logger.log(Level.WARNING,"Login problemi");
 				return false;
 			}
 			conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
+			logger.info("Login olundu");
 			return true;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Login olurken hata",e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Login olurken hata",e);
 		} catch (SAXException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Login olurken hata",e);
 		}
 		return false;
 	}
@@ -115,10 +118,12 @@ public class Updater extends TimerTask {
 			String responseText=response.getText();
 			if(responseText.indexOf("Sistem Hatası")>=0) {
 				System.err.println("Sistem Hatası");
+				logger.log(Level.WARNING,"Sistem Hatası");
 				return null;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
 				System.err.println("Oturum sonlanmış");
+				logger.log(Level.WARNING,"Oturum sonlanmış");
 				return null;
 			}
 			WebTable list=response.getFirstMatchingTable(
@@ -135,13 +140,14 @@ public class Updater extends TimerTask {
 			list.purgeEmptyCells();
 			String s= list.getCellAsText(list.getRowCount()-1,list.getColumnCount()-1);
 			response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/logout.do");
+			logger.info("Kota alındı");
 			return s;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Kota alınırken hata",e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Kota alınırken hata",e);
 		} catch (SAXException e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,"Kota alınırken hata",e);
 		}
 		return null;
 	}
