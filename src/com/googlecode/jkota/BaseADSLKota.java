@@ -71,6 +71,7 @@ public abstract class BaseADSLKota {
 		try {
 			FileHandler fileHandler =new FileHandler(System.getProperty("user.home")+"/jkota.log");
 			fileHandler.setFormatter(new SimpleFormatter());
+			fileHandler.setLevel(Level.ALL);
 			logger.addHandler(fileHandler);
 			return logger;
 			
