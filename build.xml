@@ -140,7 +140,8 @@ java -jar jkota.jar
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
 			<exclude name="jkota.jar"/>
-			<exclude name="**.html"/>
+			<exclude name="resultform.html"/>
+			<exclude name="uploadform.html"/>
 			<exclude name=".**"/>
 			<exclude name="**.settings**"/>
 		</zip>
