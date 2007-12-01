@@ -96,7 +96,7 @@ public class Updater extends TimerTask {
 			String submitText=response.getText();
 			if(submitText.indexOf("İşlem hatası")>=0) {
 				System.out.println("Login problemi");
-				logger.log(Level.WARNING,"Login problemi");
+				logger.warning("Login problemi");
 				return false;
 			}
 			conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
@@ -118,12 +118,12 @@ public class Updater extends TimerTask {
 			String responseText=response.getText();
 			if(responseText.indexOf("Sistem Hatası")>=0) {
 				System.err.println("Sistem Hatası");
-				logger.log(Level.WARNING,"Sistem Hatası");
+				logger.warning("Sistem Hatası");
 				return null;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
 				System.err.println("Oturum sonlanmış");
-				logger.log(Level.WARNING,"Oturum sonlanmış");
+				logger.warning("Oturum sonlanmış");
 				return null;
 			}
 			WebTable list=response.getFirstMatchingTable(
