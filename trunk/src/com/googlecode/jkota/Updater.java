@@ -83,7 +83,7 @@ public class Updater extends TimerTask {
 		return "";
 	}
 	
-	public void Auth(String username,String pass,String captcha) {
+	public boolean Auth(String username,String pass,String captcha) {
 		try {
 			WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/loginSelf.do");
 			WebForm login=response.getForms()[0];
@@ -91,10 +91,13 @@ public class Updater extends TimerTask {
 			login.setParameter("password", pass);
 			login.setParameter("captchaResponse", captcha);
 			response=login.submit();
-			response.getText();
-			response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
-			response.getText();
-			
+			String submitText=response.getText();
+			if(submitText.indexOf("İşlem hatası")>=0) {
+				System.out.println("Login problemi");
+				return false;
+			}
+			conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
+			return true;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -102,6 +105,7 @@ public class Updater extends TimerTask {
 		} catch (SAXException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public String Quota() {
@@ -113,7 +117,7 @@ public class Updater extends TimerTask {
 				return null;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
-				System.err.println("Login problemi");
+				System.err.println("Oturum sonlanmış");
 				return null;
 			}
 			WebTable list=response.getFirstMatchingTable(
@@ -155,7 +159,8 @@ public class Updater extends TimerTask {
 	public void run() {
 		while(true) {
 			String captcha=ExtractCaptcha();
-			Auth(adslKota.getSetting("username"),adslKota.getSetting("password"),captcha);
+			if(!Auth(adslKota.getSetting("username"),adslKota.getSetting("password"),captcha))
+				continue;
 			String quotaString=Quota();
 			if(quotaString==null || quotaString.equals(""))
 				continue;
