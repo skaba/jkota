@@ -62,8 +62,8 @@ public class Updater extends TimerTask {
 					Thread.sleep(10000);
 				}
 			}
+			(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
 			return captcha;
-			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,6 +80,7 @@ public class Updater extends TimerTask {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
 		return "";
 	}
 	
