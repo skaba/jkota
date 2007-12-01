@@ -8,6 +8,10 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Timer;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
@@ -60,5 +64,23 @@ public abstract class BaseADSLKota {
 			return defaultSetting;
 		else
 			return Integer.parseInt(valueString); 
+	}
+	
+	public static Logger getLogger() {
+		Logger logger= Logger.getLogger("JKota");
+		try {
+			FileHandler fileHandler =new FileHandler(System.getProperty("user.home")+"/jkota.log");
+			fileHandler.setFormatter(new SimpleFormatter());
+			logger.addHandler(fileHandler);
+			return logger;
+			
+		} catch (SecurityException e) {
+			logger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
+			System.exit(-1);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
+			System.exit(-1);
+		}
+		return null;
 	}
 }
