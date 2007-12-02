@@ -2,6 +2,7 @@ package com.googlecode.jkota.swing;
 
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -46,8 +47,11 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		about.addActionListener(this);
 		trayMenu.add(about);
 		ClassLoader loader=getClass().getClassLoader();
-		URL fileLocation=loader.getResource("favicon.gif");
-		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(fileLocation),null,trayMenu);
+		URL fileLocation=loader.getResource("favicon.png");
+		int width=tray.getTrayIconSize().width;
+		int height=tray.getTrayIconSize().height;
+		Image orj = Toolkit.getDefaultToolkit().getImage(fileLocation);
+		icon = new TrayIcon(orj.getScaledInstance(width, height, Image.SCALE_SMOOTH),null,trayMenu);
 		try {
 			tray.add(icon);
 		} catch (AWTException e) {

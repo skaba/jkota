@@ -45,7 +45,7 @@
 		<native2ascii encoding="UTF-8" src="src" dest="src_ascii" includes="**/*.java"/>
 		<mkdir dir="build_dir/classes"/>
 		<javac source="1.6" target="1.6" srcdir="src_ascii" destdir="build_dir/classes" classpathref="libs"/>
-		<copy todir="build_dir/classes" file="favicon.gif"/>
+		<copy todir="build_dir/classes" file="favicon.png"/>
 		<copy todir="build_dir/classes" file="about.html"/>
 		<copy todir="build_dir/classes" file="thx.html"/>
 	</target>
