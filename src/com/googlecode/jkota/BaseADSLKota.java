@@ -69,7 +69,7 @@ public abstract class BaseADSLKota {
 	public static Logger getLogger() {
 		Logger logger= Logger.getLogger("JKota");
 		try {
-			FileHandler fileHandler =new FileHandler(System.getProperty("user.home")+"/jkota.log");
+			FileHandler fileHandler =new FileHandler(System.getProperty("user.home")+"/jkota.log",true);
 			fileHandler.setFormatter(new SimpleFormatter());
 			fileHandler.setLevel(Level.ALL);
 			logger.addHandler(fileHandler);
