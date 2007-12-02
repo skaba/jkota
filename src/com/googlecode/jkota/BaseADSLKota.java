@@ -73,6 +73,7 @@ public abstract class BaseADSLKota {
 			fileHandler.setFormatter(new SimpleFormatter());
 			fileHandler.setLevel(Level.ALL);
 			logger.addHandler(fileHandler);
+			logger.setLevel(Level.ALL);
 			return logger;
 			
 		} catch (SecurityException e) {
