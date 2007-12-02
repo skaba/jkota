@@ -50,8 +50,9 @@
 		<copy todir="build_dir/classes" file="thx.html"/>
 	</target>
 	
-	<target name="jar" depends="compile">
+	<target name="jar" depends="init,compile">
 		<delete file="jkota.jar"/>
+		<replace file="build_dir/classes/about.html" token="%fullversion" value="${fullversion}"/>
 		<manifest file="build_dir/manifest.mf">
 			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingADSLKota"/>
 			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar"/>
