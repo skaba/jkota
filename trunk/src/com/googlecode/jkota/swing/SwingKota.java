@@ -16,16 +16,16 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.googlecode.jkota.BaseADSLKota;
+import com.googlecode.jkota.BaseKota;
 
 
 
-public class SwingADSLKota extends BaseADSLKota implements ActionListener {
+public class SwingKota extends BaseKota implements ActionListener {
 
 	private MenuItem quit,settings,about;
 	private TrayIcon icon;
 	
-	public SwingADSLKota() {
+	public SwingKota() {
 		String masterKey=null;
 		while(masterKey==null)
 			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
@@ -66,7 +66,7 @@ public class SwingADSLKota extends BaseADSLKota implements ActionListener {
 		(
 				new Thread() {
 					public void run() {
-						new SwingADSLKota();
+						new SwingKota();
 					}
 				}
 		);

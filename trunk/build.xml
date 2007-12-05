@@ -106,6 +106,7 @@ java -jar jkota.jar
 			<exclude name="**dist**"/>
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
+			<exclude name="**src_ascii**"/>
 			<exclude name="jkota.jar"/>
 			<exclude name="resultform.html"/>
 			<exclude name="uploadform.html"/>
@@ -140,6 +141,7 @@ java -jar jkota.jar
 			<exclude name="**dist**"/>
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
+			<exclude name="**src_ascii**"/>
 			<exclude name="jkota.jar"/>
 			<exclude name="resultform.html"/>
 			<exclude name="uploadform.html"/>
