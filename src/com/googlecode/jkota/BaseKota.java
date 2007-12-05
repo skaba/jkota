@@ -13,17 +13,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import com.googlecode.jkota.updater.Updater;
+
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
 
-public abstract class BaseADSLKota {
+public abstract class BaseKota {
 	
 	public abstract void updateKota(String kota);
 	public abstract void firstTime();
 	private Properties settings;
 	private byte masterKey[];
 	
-	public BaseADSLKota() {
+	public BaseKota() {
 		masterKey=new byte[0];
 		settings=new Properties();
 	}

@@ -17,15 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import com.googlecode.jkota.BaseADSLKota;
+import com.googlecode.jkota.BaseKota;
 
 public class SwingSettings extends JDialog implements ActionListener {
 	
-	private BaseADSLKota adslKota;
+	private BaseKota adslKota;
 	private JHelpText userName,password,apiKey;
 	private JSpinner updateInterval;
 	
-	public SwingSettings(BaseADSLKota adslKota) {
+	public SwingSettings(BaseKota adslKota) {
 		super((Frame)null,"Yapılandırma",true);
 		this.adslKota=adslKota;
 		setLayout(new BorderLayout());
