@@ -14,9 +14,9 @@ import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
 
-public class Updater extends BaseUpdater {
+public class TTNetADSLUpdater extends BaseUpdater {
 	
-	public Updater(BaseKota kota) {
+	public TTNetADSLUpdater(BaseKota kota) {
 		super(kota);
 	}
 

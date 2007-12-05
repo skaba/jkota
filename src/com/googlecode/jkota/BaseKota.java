@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import com.googlecode.jkota.updater.Updater;
+import com.googlecode.jkota.updater.TTNetADSLUpdater;
 
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
@@ -36,7 +36,7 @@ public abstract class BaseKota {
 
 	public final void startTimer() {
 		Timer t = new Timer();
-		t.schedule(new Updater(this),new Date(), 60000*getIntSetting("updateinterval",10));
+		t.schedule(new TTNetADSLUpdater(this),new Date(), 60000*getIntSetting("updateinterval",10));
 	}
 	
 	public void storeSettings() throws IOException {
