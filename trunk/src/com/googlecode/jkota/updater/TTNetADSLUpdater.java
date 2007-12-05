@@ -21,12 +21,12 @@ public class TTNetADSLUpdater extends BaseUpdater {
 	}
 
 	@Override
-	public boolean login(String username,String pass) {
+	public boolean login(String username,String password) {
 		try {
 			WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/loginSelf.do");
 			WebForm login=response.getForms()[0];
 			login.setParameter("userName", username);
-			login.setParameter("password", pass);
+			login.setParameter("password", password);
 			login.setParameter("captchaResponse", getCaptcha());
 			response=login.submit();
 			String submitText=response.getText();
