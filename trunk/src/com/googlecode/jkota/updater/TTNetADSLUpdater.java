@@ -52,12 +52,10 @@ public class TTNetADSLUpdater extends BaseUpdater {
 			WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/viewTransfer.do?dispatch=entry");
 			String responseText=response.getText();
 			if(responseText.indexOf("Sistem Hatası")>=0) {
-				System.err.println("Sistem Hatası");
 				logger.warning("Sistem Hatası");
 				return null;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
-				System.err.println("Oturum sonlanmış");
 				logger.warning("Oturum sonlanmış");
 				return null;
 			}

@@ -2,8 +2,6 @@ package com.googlecode.jkota.updater;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.xml.sax.SAXException;
@@ -24,10 +22,14 @@ public class KabloNetUpdater extends BaseUpdater {
 	public String getQuota() {
 		try {
 			WebResponse response =conversation.getResponse("http://online.turksat.com.tr/fatura/kota_takip.php");
+			if(response.getText().indexOf("Bu sayfayı kullanabilmek için lüften giriş yapınız")>0) {
+				logger.warning("Login problemi");
+				return null;
+			}
 			WebTable list=response.getTables()[0];
 			list.purgeEmptyCells();
 			String s= list.getCellAsText(list.getRowCount()-1,list.getColumnCount()-1);
-			logger.info("Kota alındı \""+s+"\"");
+			logger.info("Kota alındı");
 			return s;
 		} catch (MalformedURLException e) {
 			logger.log(Level.WARNING,"Kota alınırken hata",e);
