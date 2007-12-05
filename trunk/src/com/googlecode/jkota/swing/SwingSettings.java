@@ -21,13 +21,13 @@ import com.googlecode.jkota.BaseKota;
 
 public class SwingSettings extends JDialog implements ActionListener {
 	
-	private BaseKota adslKota;
+	private BaseKota kota;
 	private JHelpText userName,password,apiKey;
 	private JSpinner updateInterval;
 	
 	public SwingSettings(BaseKota adslKota) {
 		super((Frame)null,"Yapılandırma",true);
-		this.adslKota=adslKota;
+		this.kota=adslKota;
 		setLayout(new BorderLayout());
 		JPanel settingsPanel=new JPanel(new GridLayout(0,2));
 		settingsPanel.add(new JLabel("Kullanıcı adı:"));
@@ -68,12 +68,12 @@ public class SwingSettings extends JDialog implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		adslKota.setSetting("username", userName.getText());
-		adslKota.setSetting("password", password.getText());
-		adslKota.setSetting("apikey", apiKey.getText());
-		adslKota.setIntSetting("updateinterval", (Integer)updateInterval.getModel().getValue());
+		kota.setSetting("username", userName.getText());
+		kota.setSetting("password", password.getText());
+		kota.setSetting("apikey", apiKey.getText());
+		kota.setIntSetting("updateinterval", (Integer)updateInterval.getModel().getValue());
 		try {
-			adslKota.storeSettings();
+			kota.storeSettings();
 		} catch (IOException e1) {
 			SwingUtil.error(this, e1,"Ayarlar kaydedilirken hata");
 		}
