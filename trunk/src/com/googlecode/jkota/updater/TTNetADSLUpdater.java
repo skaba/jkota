@@ -1,6 +1,9 @@
 package com.googlecode.jkota.updater;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 
@@ -87,4 +90,32 @@ public class TTNetADSLUpdater extends BaseUpdater {
 	
 	@Override
 	public boolean isUsingCaptcha() { return true; }
+	
+	@Override
+	public boolean downloadCaptcha() {
+		try {
+			WebResponse response = conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/jcaptcha");
+			copyStream(response.getInputStream(), new FileOutputStream(System.getProperty("java.io.tmpdir")+"/captcha"));
+			logger.info("Captcha alındı");
+			return true;
+		} catch (MalformedURLException e) {
+			logger.log(Level.WARNING,"Güvenlik kodu indirilirken hata",e);
+		} catch (IOException e) {
+			logger.log(Level.WARNING,"Güvenlik kodu indirilirken hata",e);
+		} catch (SAXException e) {
+			logger.log(Level.WARNING,"Güvenlik kodu indirilirken hata",e);
+		}
+		return false;
+	}
+	
+	private void copyStream(InputStream in,OutputStream out) throws IOException {
+		byte buf[]=new byte[8*1024];
+		while(true) {
+			int read=in.read(buf);
+			if(read==-1)
+				break;
+			out.write(buf, 0, read);
+		}
+		out.flush();
+	}
 }
