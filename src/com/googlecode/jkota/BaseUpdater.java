@@ -1,10 +1,7 @@
 package com.googlecode.jkota;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -28,34 +25,23 @@ public abstract class BaseUpdater extends TimerTask {
 	public abstract boolean login(String username,String password);
 	public abstract String getQuota();
 	
-	private BaseKota adslKota;
+	private BaseKota kota;
 	public BaseUpdater(BaseKota kota) {
-		this.adslKota=kota;
+		this.kota=kota;
 		conversation=new WebConversation();
 		conversation.setHeaderField("User-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 		logger=BaseKota.getLogger();
 		HttpUnitOptions.setScriptingEnabled(false);//Disable Javascript parsing
 	}
-
-	private void copyStream(InputStream in,OutputStream out) throws IOException {
-		byte buf[]=new byte[8*1024];
-		while(true) {
-			int read=in.read(buf);
-			if(read==-1)
-				break;
-			out.write(buf, 0, read);
-		}
-		out.flush();
-	}
+	
+	public boolean downloadCaptcha() { return true; }
+	//Dummy method, updaters using captcha must override this.
 	
 	public final String extractCaptcha() {
 		try {
-			WebResponse response=conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/jcaptcha");
-			copyStream(response.getInputStream(), new FileOutputStream(System.getProperty("java.io.tmpdir")+"/captcha"));
-			logger.info("Captcha alındı");
-			response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/uploadform.html");
+			WebResponse response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/uploadform.html");
 			WebForm upload_captcha=response.getForms()[0];
-			upload_captcha.setParameter("api_key", adslKota.getSetting("apikey"));
+			upload_captcha.setParameter("api_key", kota.getSetting("apikey"));
 			upload_captcha.setParameter("file", new File(System.getProperty("java.io.tmpdir")+"/captcha"));
 			String guid="";
 			while(guid.equals("")) {
@@ -69,7 +55,7 @@ public abstract class BaseUpdater extends TimerTask {
 			guid=guid.substring(0,36);
 			response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/resultform.html");
 			WebForm get_result=response.getForms()[0];
-			get_result.setParameter("api_key", adslKota.getSetting("apikey"));
+			get_result.setParameter("api_key", kota.getSetting("apikey"));
 			get_result.setParameter("captcha_id", guid);
 			String captcha="";
 			while(captcha.equals("")) {
@@ -111,14 +97,19 @@ public abstract class BaseUpdater extends TimerTask {
 	}
 	
 	private boolean runNUpdateQuota() {
-		if(isUsingCaptcha())
+		if(isUsingCaptcha()) {
+			if(!downloadCaptcha())
+				return false;
 			captcha=extractCaptcha();
-		if (!login(adslKota.getSetting("username"),adslKota.getSetting("password")))
+			if(captcha.equals(""))
+				return false;
+		}
+		if (!login(kota.getSetting("username"),kota.getSetting("password")))
 			return false;
 		String quotaString=getQuota();
 		if(quotaString==null || quotaString.equals(""))
 			return false;
-		adslKota.updateKota(quotaString);
+		kota.updateKota(quotaString);
 		return true;
 	}
 
