@@ -41,10 +41,10 @@
 	
 	<target name="compile">
 		<delete dir="build_dir"/>
-		<delete dir="src_ascii"/>
 		<native2ascii encoding="UTF-8" src="src" dest="src_ascii" includes="**/*.java"/>
 		<mkdir dir="build_dir/classes"/>
 		<javac source="1.6" target="1.6" srcdir="src_ascii" destdir="build_dir/classes" classpathref="libs"/>
+		<delete dir="src_ascii"/>
 		<copy todir="build_dir/classes" file="favicon.png"/>
 		<copy todir="build_dir/classes" file="about.html"/>
 		<copy todir="build_dir/classes" file="thx.html"/>
@@ -106,7 +106,6 @@ java -jar jkota.jar
 			<exclude name="**dist**"/>
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
-			<exclude name="**src_ascii**"/>
 			<exclude name="jkota.jar"/>
 			<exclude name="resultform.html"/>
 			<exclude name="uploadform.html"/>
@@ -141,7 +140,6 @@ java -jar jkota.jar
 			<exclude name="**dist**"/>
 			<exclude name="**build_dir**"/>
 			<exclude name="**bin**"/>
-			<exclude name="**src_ascii**"/>
 			<exclude name="jkota.jar"/>
 			<exclude name="resultform.html"/>
 			<exclude name="uploadform.html"/>
@@ -151,7 +149,6 @@ java -jar jkota.jar
 	</target>
 	
 	<target name="clean">
-		<delete dir="src_ascii"/>
 		<delete dir="build_dir"/>
 		<delete dir="dist"/>
 		<delete file="jkota.jar"/>
