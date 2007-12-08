@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import com.googlecode.jkota.updater.KabloNetUpdater;
 import com.googlecode.jkota.updater.TTNetADSLUpdater;
 
 import net.sourceforge.blowfishj.BlowfishInputStream;
@@ -36,7 +37,7 @@ public abstract class BaseKota {
 
 	public final void startTimer() {
 		Timer t = new Timer();
-		t.schedule(new TTNetADSLUpdater(this),new Date(), 60000*getIntSetting("updateinterval",10));
+		t.schedule(getUpdater(getSetting("updater")),new Date(), 60000*getIntSetting("updateinterval",10));
 	}
 	
 	public void storeSettings() throws IOException {
@@ -86,5 +87,17 @@ public abstract class BaseKota {
 			System.exit(-1);
 		}
 		return null;
+	}
+	
+	private BaseUpdater getUpdater(String updaterName) {
+		if("TTNet ADSL".equals(updaterName))
+			return new TTNetADSLUpdater(this);
+		else if("Kablo Net".equals(updaterName))
+			return new KabloNetUpdater(this);
+		return null;
+	}
+	
+	public static String[] getUpdaters() {
+		return new String[] {"TTNet ADSL","Kablo Net"};
 	}
 }

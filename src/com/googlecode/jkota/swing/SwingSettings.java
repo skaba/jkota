@@ -7,10 +7,10 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,19 +24,31 @@ public class SwingSettings extends JDialog implements ActionListener {
 	private BaseKota kota;
 	private JHelpText userName,password,apiKey;
 	private JSpinner updateInterval;
+	private JComboBox updaterList;
+	private JLabel apiKeyLabel;
 	
 	public SwingSettings(BaseKota adslKota) {
 		super((Frame)null,"Yapılandırma",true);
 		this.kota=adslKota;
 		setLayout(new BorderLayout());
 		JPanel settingsPanel=new JPanel(new GridLayout(0,2));
+		settingsPanel.add(new JLabel("Servis sağlayıcı:"));
+		updaterList = new JComboBox(BaseKota.getUpdaters());
+		String updater=kota.getSetting("updater");
+		if(updater!=null)
+			updaterList.setSelectedItem(updater);
+		updaterList.setEditable(false);
+		updaterList.setActionCommand("list");
+		updaterList.addActionListener(this);
+		settingsPanel.add(updaterList);
 		settingsPanel.add(new JLabel("Kullanıcı adı:"));
 		userName=new JHelpText(adslKota.getSetting("username"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",false);
 		settingsPanel.add(userName);
 		settingsPanel.add(new JLabel("Şifre:"));
 		password=new JHelpText(adslKota.getSetting("password"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",true);
 		settingsPanel.add(password);
-		settingsPanel.add(new JLabel("API Key:"));
+		apiKeyLabel=new JLabel("API Key:");
+		settingsPanel.add(apiKeyLabel);
 		apiKey=new JHelpText(adslKota.getSetting("apikey"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",false);
 		settingsPanel.add(apiKey);
 		settingsPanel.add(new JLabel("Günceleme sıklığı:"));
@@ -47,6 +59,7 @@ public class SwingSettings extends JDialog implements ActionListener {
 		settingsPanel.add(updateIntervalPanel);
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 		JButton ok=new JButton("Tamam");
+		ok.setActionCommand("ok");
 		ok.addActionListener(this);
 		getContentPane().add(ok,BorderLayout.SOUTH);
 		setSize(300,200);
@@ -56,27 +69,29 @@ public class SwingSettings extends JDialog implements ActionListener {
 		setVisible(true);
 	}
 
-	public void windowActivated(WindowEvent e) {}
-	public void windowClosed(WindowEvent e) {}
-	public void windowDeactivated(WindowEvent e) {}
-	public void windowDeiconified(WindowEvent e) {}
-	public void windowIconified(WindowEvent e) {}
-	public void windowOpened(WindowEvent e) {}
-	
-	public void windowClosing(WindowEvent e) {
-		
-	}
-
 	public void actionPerformed(ActionEvent e) {
-		kota.setSetting("username", userName.getText());
-		kota.setSetting("password", password.getText());
-		kota.setSetting("apikey", apiKey.getText());
-		kota.setIntSetting("updateinterval", (Integer)updateInterval.getModel().getValue());
-		try {
-			kota.storeSettings();
-		} catch (IOException e1) {
-			SwingUtil.error(this, e1,"Ayarlar kaydedilirken hata");
+		if("ok".equals(e.getActionCommand())) {
+			kota.setSetting("username", userName.getText());
+			kota.setSetting("password", password.getText());
+			kota.setSetting("apikey", apiKey.getText());
+			kota.setSetting("updater", (String)updaterList.getSelectedItem());
+			kota.setIntSetting("updateinterval", (Integer)updateInterval.getModel().getValue());
+			try {
+				kota.storeSettings();
+			} catch (IOException e1) {
+				SwingUtil.error(this, e1,"Ayarlar kaydedilirken hata");
+			}
+			dispose();
 		}
-		dispose();
+		else if("list".equals(e.getActionCommand())) {
+			if(updaterList.getSelectedItem().equals("TTNet ADSL")) {
+				apiKeyLabel.setVisible(true);
+				apiKey.setVisible(true);
+			}
+			else {
+				apiKeyLabel.setVisible(false);
+				apiKey.setVisible(false);
+			}
+		}
 	}	
 }
