@@ -28,7 +28,7 @@ public class KabloNetUpdater extends BaseUpdater {
 			}
 			WebTable list=response.getTables()[0];
 			list.purgeEmptyCells();
-			String s= list.getCellAsText(list.getRowCount()-1,list.getColumnCount()-1);
+			String s= list.getCellAsText(1,list.getColumnCount()-1);
 			logger.info("Kota alındı");
 			return s;
 		} catch (MalformedURLException e) {
