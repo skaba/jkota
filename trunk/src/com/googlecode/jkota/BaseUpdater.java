@@ -49,7 +49,14 @@ public abstract class BaseUpdater extends TimerTask {
 				String responseText=response.getText();
 				if(responseText.startsWith("SUCCESS: captcha_id="))
 					guid=responseText.substring(20);
-					
+				else {
+					logger.warning
+					(
+						"Güvenlik kodu gönderilirken hata: "+
+						responseText.substring(9)
+					);
+					break;
+				}
 			}
 			logger.info("Captcha gönderildi");
 			guid=guid.substring(0,36);
