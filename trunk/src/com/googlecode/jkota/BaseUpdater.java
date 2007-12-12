@@ -55,7 +55,7 @@ public abstract class BaseUpdater extends TimerTask {
 						"Güvenlik kodu gönderilirken hata: "+
 						responseText.substring(9)
 					);
-					break;
+					return "";
 				}
 			}
 			logger.info("Captcha gönderildi");
