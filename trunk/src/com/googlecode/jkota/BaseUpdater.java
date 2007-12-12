@@ -69,6 +69,14 @@ public abstract class BaseUpdater extends TimerTask {
 				else if(responseText.startsWith("WAIT")) {
 					Thread.sleep(10000);
 				}
+				else if(responseText.startsWith("FAILURE")) {
+					logger.warning
+					(
+						"Güvenlik kodu çözülürken hata: "+
+						responseText.substring(9)
+					);
+					break;
+				}
 			}
 			(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
 			logger.info("Captcha çözüldü: "+captcha);
