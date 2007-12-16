@@ -107,6 +107,7 @@ public abstract class BaseUpdater extends TimerTask {
 	
 	@Override
 	public final void run() {
+		kota.updateKota("Kota güncelleniyor");
 		while(!runNUpdateQuota());
 
 	}
