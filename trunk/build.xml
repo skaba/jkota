@@ -4,28 +4,16 @@
 		<fileset dir="../../svnant-1.0.0/lib">
 			<include name="*.jar"/>
 		</fileset>
-	</path>	
-	
-	<taskdef name="launch4j"
-		onerror="report"
-		classpath="../../launch4j/launch4j.jar" 
-		classname="net.sf.launch4j.ant.Launch4jTask"
-	/>
-	
-	<taskdef name="svn"
-		onerror="report"
-		classpathref="svnantlibs"
-		classname="org.tigris.subversion.svnant.SvnTask"
-	/>
-	<taskdef
-		classpath="../../ant-googlecode/ant-googlecode.jar"
-		classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask"
-		name="gcupload"
-	/>
+	</path>
 	
 	<property file="build.properties"/>
 	<property file="../../googlecode-login.properties"/>
 	<target name="init-svn" unless="release">
+		<taskdef name="svn"
+			onerror="report"
+			classpathref="svnantlibs"
+			classname="org.tigris.subversion.svnant.SvnTask"
+		/>
 		<svn>
 			<status path="." revisionproperty="revision"/>
 		</svn>
@@ -99,6 +87,13 @@
 	</target>
 	
 	<target name="exe">
+		
+		<taskdef name="launch4j"
+			onerror="report"
+			classpath="../../launch4j/launch4j.jar" 
+			classname="net.sf.launch4j.ant.Launch4jTask"
+		/>
+		
 		<launch4j>
 			<config
 				outfile="dist/jkota.exe"
@@ -162,6 +157,11 @@ java -jar jkota.jar
 	</target>
 	
 	<target name="upload" depends="all_packages">
+		<taskdef
+			classpath="../../ant-googlecode/ant-googlecode.jar"
+			classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask"
+			name="gcupload"
+		/>
 		<gcupload
 			username="${gc.username}"
 			password="${gc.password}"
