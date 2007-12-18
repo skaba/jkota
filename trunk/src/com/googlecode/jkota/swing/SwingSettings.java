@@ -66,6 +66,7 @@ public class SwingSettings extends JDialog implements ActionListener {
 		setResizable(false);
 		SwingUtil.center(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		hideShowAPIKey();
 		setVisible(true);
 	}
 
@@ -83,15 +84,18 @@ public class SwingSettings extends JDialog implements ActionListener {
 			}
 			dispose();
 		}
-		else if("list".equals(e.getActionCommand())) {
-			if(updaterList.getSelectedItem().equals("TTNet ADSL")) {
-				apiKeyLabel.setVisible(true);
-				apiKey.setVisible(true);
-			}
-			else {
-				apiKeyLabel.setVisible(false);
-				apiKey.setVisible(false);
-			}
+		else if("list".equals(e.getActionCommand()))
+			hideShowAPIKey();
+	}
+	
+	private void hideShowAPIKey() {
+		if(updaterList.getSelectedItem().equals("TTNet ADSL")) {
+			apiKeyLabel.setVisible(true);
+			apiKey.setVisible(true);
 		}
-	}	
+		else {
+			apiKeyLabel.setVisible(false);
+			apiKey.setVisible(false);
+		}
+	}
 }
