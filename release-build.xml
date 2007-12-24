@@ -68,7 +68,7 @@
 	
 	<target name="sh">
 		<echo file="dist/jkota">#!/bin/sh
-java -jar jkota.jar
+java -jar "`dirname \"$0\"`"/jkota.jar
 		</echo>
 		<chmod file="dist/jkota" perm="755"/>
 	</target>
