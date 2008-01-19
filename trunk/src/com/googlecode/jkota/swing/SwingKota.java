@@ -9,6 +9,10 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,9 +26,9 @@ import com.googlecode.jkota.BaseKota;
 
 
 
-public class SwingKota extends BaseKota implements ActionListener {
+public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner {
 
-	private MenuItem quit,settings,about,logfile;
+	private MenuItem quit,settings,about,logfile,clipboard;
 	private TrayIcon icon;
 	
 	public SwingKota() {
@@ -45,6 +49,9 @@ public class SwingKota extends BaseKota implements ActionListener {
 		logfile=new MenuItem("Günlük");
 		logfile.addActionListener(this);
 		trayMenu.add(logfile);
+		clipboard=new MenuItem("Panoya kopyala");
+		clipboard.addActionListener(this);
+		trayMenu.add(clipboard);
 		about=new MenuItem("Hakkında");
 		about.addActionListener(this);
 		trayMenu.add(about);
@@ -92,6 +99,11 @@ public class SwingKota extends BaseKota implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
+		if(e.getSource()==clipboard) {
+			StringSelection stringSelection = new StringSelection(icon.getToolTip());
+			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			clipboard.setContents( stringSelection, this );
+		}
 	}
 
 	@Override
@@ -103,4 +115,6 @@ public class SwingKota extends BaseKota implements ActionListener {
 	public void firstTime() {
 		new SwingSettings(this);
 	}
+
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
 }
