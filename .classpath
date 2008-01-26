@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/blowfishj.jar"/>
 	<classpathentry kind="lib" path="lib/httpunit.jar"/>
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JAVAGNOME4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
