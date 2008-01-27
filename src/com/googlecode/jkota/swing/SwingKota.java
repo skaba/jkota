@@ -92,12 +92,7 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 		if(e.getSource()==about)
 			new SwingAbout();
 		if(e.getSource()==logfile) {
-			Desktop desktop = Desktop.getDesktop();
-			try {
-				desktop.open(new File(System.getProperty("user.home")+"/jkota.log"));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			viewLogFile();
 		}
 		if(e.getSource()==clipboard) {
 			StringSelection stringSelection = new StringSelection(icon.getToolTip());

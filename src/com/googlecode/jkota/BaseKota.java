@@ -1,5 +1,6 @@
 package com.googlecode.jkota;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,6 +26,8 @@ public abstract class BaseKota {
 	public abstract void firstTime();
 	private Properties settings;
 	private byte masterKey[];
+	protected static String LOG_FILE=System.getProperty("user.home")+ File.separator+"jkota.log";
+	protected static String SETTINGS_FILE=System.getProperty("user.home")+ File.separator+".jkota";
 	
 	public BaseKota() {
 		masterKey=new byte[0];
@@ -43,7 +46,7 @@ public abstract class BaseKota {
 	public void storeSettings() throws IOException {
 		BlowfishOutputStream out=new BlowfishOutputStream(
 				masterKey,0,masterKey.length,
-				new FileOutputStream(System.getProperty("user.home") + File.separator+".jkota")
+				new FileOutputStream(SETTINGS_FILE)
 		);
 		settings.store(out,"");
 		out.flush();
@@ -51,7 +54,7 @@ public abstract class BaseKota {
 	}
 	
 	public void readSettings() throws IOException {
-		File settingsFile=new File(System.getProperty("user.home") + File.separator+".jkota");
+		File settingsFile=new File(SETTINGS_FILE);
 		if(!settingsFile.exists())
 			firstTime();
 		else
@@ -72,7 +75,7 @@ public abstract class BaseKota {
 	public static Logger getLogger() {
 		Logger logger= Logger.getLogger("JKota");
 		try {
-			FileHandler fileHandler =new FileHandler(System.getProperty("user.home")+"/jkota.log",true);
+			FileHandler fileHandler =new FileHandler(LOG_FILE,true);
 			fileHandler.setFormatter(new SimpleFormatter());
 			fileHandler.setLevel(Level.ALL);
 			logger.addHandler(fileHandler);
@@ -95,6 +98,15 @@ public abstract class BaseKota {
 		else if("Kablo Net".equals(updaterName))
 			return new KabloNetUpdater(this);
 		return null;
+	}
+	
+	public void viewLogFile() {
+		Desktop desktop = Desktop.getDesktop();
+		try {
+			desktop.open(new File(LOG_FILE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static String[] getUpdaters() {
