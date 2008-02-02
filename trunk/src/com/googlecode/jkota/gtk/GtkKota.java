@@ -1,11 +1,10 @@
 package com.googlecode.jkota.gtk;
 
-import org.gnome.gtk.MenuItem;
 import java.io.IOException;
 
-import org.gnome.gtk.AboutDialog;
 import org.gnome.gtk.Gtk;
 import org.gnome.gtk.Menu;
+import org.gnome.gtk.MenuItem;
 import org.gnome.gtk.StatusIcon;
 import org.gnome.gtk.MenuItem.ACTIVATE;
 import org.gnome.gtk.StatusIcon.POPUP_MENU;
@@ -56,6 +55,8 @@ public class GtkKota extends BaseKota implements ACTIVATE,POPUP_MENU {
 	public void onActivate(MenuItem source) {
 		if(source==quit)
 			Gtk.mainQuit();
+		if(source==logfile)
+			viewLogFile();
 	}
 
 	@Override
@@ -63,6 +64,8 @@ public class GtkKota extends BaseKota implements ACTIVATE,POPUP_MENU {
 		Menu trayMenu=new Menu();
 		quit=new MenuItem("Çıkış",this);
 		trayMenu.append(quit);
+		logfile=new MenuItem("Günlük");
+		trayMenu.append(logfile);
 		trayMenu.showAll();
 		trayMenu.popup(source);
 	}
