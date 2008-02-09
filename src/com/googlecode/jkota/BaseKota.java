@@ -26,7 +26,7 @@ public abstract class BaseKota {
 	public abstract void firstTime();
 	private Properties settings;
 	private byte masterKey[];
-	protected static String LOG_FILE="%h/jkota.log";
+	protected static String LOG_FILE=System.getProperty("user.home")+ File.separator+"jkota.log";
 	protected static String SETTINGS_FILE=System.getProperty("user.home")+ File.separator+".jkota";
 	
 	public BaseKota() {
