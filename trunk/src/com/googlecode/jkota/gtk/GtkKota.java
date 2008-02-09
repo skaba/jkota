@@ -57,15 +57,25 @@ public class GtkKota extends BaseKota implements ACTIVATE,POPUP_MENU {
 			Gtk.mainQuit();
 		if(source==logfile)
 			viewLogFile();
+		if(source==about) {
+			GtkAbout about=new GtkAbout();
+			about.showAll();
+			about.run();
+		}
 	}
 
 	@Override
 	public void onPopupMenu(StatusIcon source, int button, int activateTime) {
 		Menu trayMenu=new Menu();
-		quit=new MenuItem("Çıkış",this);
-		trayMenu.append(quit);
 		logfile=new MenuItem("Günlük");
 		trayMenu.append(logfile);
+		logfile.connect(this);
+		about=new MenuItem("Hakkında");
+		trayMenu.append(about);
+		about.connect(this);
+		quit=new MenuItem("Çıkış",this);
+		trayMenu.append(quit);
+		quit.connect(this);
 		trayMenu.showAll();
 		trayMenu.popup(source);
 	}
