@@ -2,6 +2,7 @@ package com.googlecode.jkota.gtk;
 
 import java.io.IOException;
 
+import org.gnome.gtk.AboutDialog;
 import org.gnome.gtk.Gtk;
 import org.gnome.gtk.Menu;
 import org.gnome.gtk.MenuItem;
@@ -58,7 +59,11 @@ public class GtkKota extends BaseKota implements ACTIVATE,POPUP_MENU {
 		if(source==logfile)
 			viewLogFile();
 		if(source==about) {
-			GtkAbout about=new GtkAbout();
+			AboutDialog about=new AboutDialog();
+			about.setComments("İnternet kota kontrol Programı");
+			about.setCopyright("© 2007 Serkan Kaba");
+			about.setProgramName("JKota");
+			about.setAuthors(new String[] {"Serkan Kaba <serkan_kaba@yahoo.com>"});
 			about.showAll();
 			about.run();
 		}
