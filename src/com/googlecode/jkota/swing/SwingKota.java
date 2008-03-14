@@ -21,14 +21,16 @@ import javax.swing.SwingUtilities;
 
 import com.googlecode.jkota.BaseKota;
 
-
-
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner {
 
 	private MenuItem quit,settings,about,logfile,clipboard;
 	private TrayIcon icon;
 	
 	public SwingKota() {
+		if(!SystemTray.isSupported()) {
+			JOptionPane.showMessageDialog(null,"Sistem tepsisi desteklenmiyor.\nJKota kapatılacak", "HATA", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
 		String masterKey=null;
 		while(masterKey==null)
 			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
