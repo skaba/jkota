@@ -17,7 +17,7 @@
 		<svn>
 			<status path="." revisionproperty="revision"/>
 		</svn>
-		<property name="fullversion" value="${version}_pre${revision}"/>
+		<property name="fullversion" value="${version}_p${revision}"/>
 	</target>
 	
 	<target name="init-release" if="release">
