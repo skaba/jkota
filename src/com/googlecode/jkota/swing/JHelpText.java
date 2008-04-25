@@ -44,10 +44,8 @@ public class JHelpText extends JPanel {
 						try {
 							desktop.browse(new URI(helpURL));
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						} catch (URISyntaxException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
