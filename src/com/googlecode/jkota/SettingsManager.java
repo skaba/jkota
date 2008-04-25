@@ -10,7 +10,7 @@ import java.util.Properties;
 import net.sourceforge.blowfishj.BlowfishInputStream;
 import net.sourceforge.blowfishj.BlowfishOutputStream;
 
-public class SettingsManager {
+public final class SettingsManager {
 	private Properties settings;
 	private byte masterKey[];
 	protected static String SETTINGS_FILE=System.getProperty("user.home")+ File.separator+".jkota";
@@ -42,7 +42,7 @@ public class SettingsManager {
 		return !settingsFile.exists();
 	}
 	
-	public final void setMasterKey(String masterKey) {
+	public void setMasterKey(String masterKey) {
 		this.masterKey = masterKey.getBytes(Charset.forName("UTF-8"));
 	}
 	

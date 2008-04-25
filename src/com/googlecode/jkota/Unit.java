@@ -1,4 +1,4 @@
-package com.googlecode.jkota.swing;
+package com.googlecode.jkota;
 
 public enum Unit {
 	

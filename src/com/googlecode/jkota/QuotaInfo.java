@@ -1,6 +1,6 @@
 package com.googlecode.jkota;
 
-public class QuotaInfo {
+public final class QuotaInfo {
 	private String month="";
 	private long downloadedBytes,uploadedBytes;
 	
@@ -10,13 +10,13 @@ public class QuotaInfo {
 		this.uploadedBytes = uploadedBytes;
 	}
 	
-	public final long getDownloadedBytes() {
+	public long getDownloadedBytes() {
 		return downloadedBytes;
 	}
-	public final String getMonth() {
+	public String getMonth() {
 		return month;
 	}
-	public final long getUploadedBytes() {
+	public long getUploadedBytes() {
 		return uploadedBytes;
 	}
 
