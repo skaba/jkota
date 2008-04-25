@@ -8,6 +8,7 @@ public abstract class BaseDownloader {
 	protected String lastQuota="";
 	protected QuotaInfo[] quotas;
 	protected WebConversation conversation;
+	private Unit viewUnit;
 	//public abstract boolean isUsingCaptcha();
 	public abstract boolean login(String username,String password);
 	public abstract boolean downloadQuota();
@@ -23,6 +24,7 @@ public abstract class BaseDownloader {
 	public String getLastQuota() { return lastQuota; }
 	public int getQuotaSize() { return quotas.length; }
 	public QuotaInfo getQuota(int i) { return quotas[i]; }
+	public Unit getViewUnit() { return viewUnit; }
 	
 	private static BaseDownloader theInstance;
 	private static String currentInstanceName="";
@@ -48,6 +50,7 @@ public abstract class BaseDownloader {
 			return false;
 		if(!downloadQuota())
 			return false;
+		viewUnit=calculateUnit();
 		return true;
 	}
 	
@@ -55,4 +58,21 @@ public abstract class BaseDownloader {
 		return new String[] {"TTNet ADSL","Kablo Net"};
 	}
 	
+	
+	private Unit calculateUnit() {
+		long max=0L;
+		for(int i=0;i<quotas.length;i++) {
+			QuotaInfo info = quotas[i];
+			if(info.getDownloadedBytes()>max)
+				max=info.getDownloadedBytes();
+			if(info.getUploadedBytes()>max)
+				max=info.getUploadedBytes();
+		}
+		Unit units[]=Unit.values();
+		for(int i=units.length-1;i>=0;i--) {
+			if(max>units[i].getDivider())
+				return units[i];
+		}
+		return Unit.BYTE;
+	}
 }

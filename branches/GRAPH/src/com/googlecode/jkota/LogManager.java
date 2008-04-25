@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class LogManager {
+public final class LogManager {
 	
 	public static String LOG_FILE=System.getProperty("user.home")+ File.separator+"jkota.log";
 	private static LogManager theInstance=new LogManager();
