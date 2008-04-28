@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import com.googlecode.jkota.BaseDownloader;
 import com.googlecode.jkota.LogManager;
 import com.googlecode.jkota.QuotaInfo;
+import com.googlecode.jkota.Unit;
 import com.meterware.httpunit.HttpException;
 import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebResponse;
@@ -77,14 +78,7 @@ public class KabloNetDownloader extends BaseDownloader {
 	
 	private long parseQuotaString(String quota) {
 		double value=Double.parseDouble(quota.substring(0,quota.indexOf(' ')));
-		if (quota.endsWith("KB"))
-			return Math.round(value*1024);
-		else if (quota.endsWith("MB"))
-			return Math.round(value*1024*1024);
-		else if(quota.endsWith("GB"))
-			return Math.round(value*1024*1024*1024);
-		else
-			return Math.round(value);
+		return Math.round(value*Unit.valueOf(quota.substring(quota.length()-2)).getDivider());
 	}
 
 }
