@@ -1,6 +1,11 @@
 package com.googlecode.jkota.swing;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -18,11 +23,21 @@ public class SwingStats extends JFrame {
 		super("İnternet Kullanım İstatistikleri");
 		SettingsManager settings=SettingsManager.getInstance();
 		Unit viewUnit=BaseDownloader.getInstance(settings.getSetting("updater")).getViewUnit();
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		BaseDownloader downloader=BaseDownloader.getInstance(settings.getSetting("updater"));
+		QuotaInfo quotas[]=new QuotaInfo[downloader.getQuotaSize()];
+		for(int i=0;i<downloader.getQuotaSize();i++) {
+			QuotaInfo info = downloader.getQuota(i);
+			quotas[quotas.length-i-1]=info;
+			dataset.addValue((double)info.getDownloadedBytes()/viewUnit.getDivider(), "Download", info.getMonth());
+			dataset.addValue((double)info.getUploadedBytes()/viewUnit.getDivider(), "Upload", info.getMonth());
+		}
+		
 		JFreeChart chart = ChartFactory.createLineChart(
 			null,
 			"Ay",
 			"Miktar ("+viewUnit+")",
-			createDataSet(viewUnit),
+			dataset,
 			PlotOrientation.VERTICAL,
 			true,
 			true,
@@ -30,23 +45,17 @@ public class SwingStats extends JFrame {
 		);
 		chart.setAntiAlias(true);
 		ChartPanel chartPanel = new ChartPanel(chart);
-		getContentPane().add(chartPanel);
-		setSize(800,400);
-		setResizable(false);
+		
+		StatsListModel model = new StatsListModel(quotas,viewUnit);
+		JTable statslist=new JTable(model);
+		JScrollPane scroller=new JScrollPane(statslist);
+		Container contentPane=getContentPane();
+		contentPane.setLayout(new BorderLayout());
+		contentPane.add(chartPanel,BorderLayout.PAGE_START);
+		contentPane.add(scroller,BorderLayout.CENTER);
+		setSize(780,580);
 		SwingUtil.center(this);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-	}
-	
-	private DefaultCategoryDataset  createDataSet(Unit unit) {
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		SettingsManager settings=SettingsManager.getInstance();
-		BaseDownloader downloader=BaseDownloader.getInstance(settings.getSetting("updater"));
-		for(int i=0;i<downloader.getQuotaSize();i++) {
-			QuotaInfo info = downloader.getQuota(i);
-			dataset.addValue(info.getDownloadedBytes()/unit.getDivider(), "Download", info.getMonth());
-			dataset.addValue(info.getUploadedBytes()/unit.getDivider(), "Upload", info.getMonth());
-		}
-		return dataset;
 	}
 }
