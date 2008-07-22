@@ -25,21 +25,20 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 	private MenuItem quit,settings,about,logfile,clipboard,statistics;
 	private TrayIcon icon;
 	
-	public SwingKota() {
+	public static void main(String[] args) {
+		
 		if(!SystemTray.isSupported()) {
 			JOptionPane.showMessageDialog(null,"Sistem tepsisi desteklenmiyor.\nJKota kapatılacak", "HATA", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
-	}
-	
-	public static void main(String[] args) {
+		
 		SwingUtilities.invokeLater
 		(
-				new Thread() {
-					public void run() {
-						new SwingKota();
-					}
+			new Thread() {
+				public void run() {
+					new SwingKota();
 				}
+			}
 		);
 	}
 
