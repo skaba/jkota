@@ -1,6 +1,7 @@
 package com.googlecode.jkota;
 
 import com.googlecode.jkota.downloader.KabloNetDownloader;
+import com.googlecode.jkota.downloader.TTNetADSLDownloader;
 import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.WebConversation;
 
@@ -27,18 +28,14 @@ public abstract class BaseDownloader {
 	public Unit getViewUnit() { return viewUnit; }
 	
 	private static BaseDownloader theInstance;
-	private static String currentInstanceName="";
+	private static String currentInstanceName;
 	
-	public static BaseDownloader getInstance(String name) {
-		if(!currentInstanceName.equals(name)) {
-			/*
-			if("TTNet ADSL".equals(updaterName))
-				return new TTNetADSLUpdater(this);
-			else if("Kablo Net".equals(updaterName))
-				return new KabloNetUpdater(this);
-			*/
-			if("Kablo Net".equals(name))
-				theInstance=new KabloNetDownloader();
+	public static synchronized BaseDownloader getInstance(String name) {
+		if(theInstance==null || !currentInstanceName.equals(name)) {
+			if("TTNet ADSL".equals(name))
+				theInstance= new TTNetADSLDownloader();
+			else if("Kablo Net".equals(name))
+				theInstance= new KabloNetDownloader();
 		}
 		currentInstanceName=name;
 		return theInstance;
