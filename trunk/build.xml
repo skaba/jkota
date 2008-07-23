@@ -34,9 +34,7 @@
 		<delete dir="build_dir"/>
 		<native2ascii encoding="UTF-8" src="src" dest="src_ascii" includes="**/*.java"/>
 		<mkdir dir="build_dir/classes"/>
-		<javac source="1.6" target="1.6" srcdir="src_ascii" destdir="build_dir/classes" classpathref="libs">
-			<exclude name="com/googlecode/jkota/gtk/**"/>
-		</javac>
+		<javac source="1.6" target="1.6" srcdir="src_ascii" destdir="build_dir/classes" classpathref="libs"/>
 		<delete dir="src_ascii"/>
 		<copy todir="build_dir/classes" file="favicon.png"/>
 		<copy todir="build_dir/classes" file="about.html"/>
