@@ -13,7 +13,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.JOptionPane;
@@ -23,23 +22,60 @@ import com.googlecode.jkota.BaseKota;
 
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner {
 
-	private MenuItem quit,settings,about,logfile,clipboard;
+	private MenuItem quit,settings,about,logfile,clipboard,statistics;
 	private TrayIcon icon;
 	
-	public SwingKota() {
+	public static void main(String[] args) {
+		
 		if(!SystemTray.isSupported()) {
 			JOptionPane.showMessageDialog(null,"Sistem tepsisi desteklenmiyor.\nJKota kapatılacak", "HATA", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
-		String masterKey=null;
-		while(masterKey==null)
-			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
-		setMasterKey(masterKey);
-		try {
-			readSettings();
-		} catch (IOException e) {
-			SwingUtil.error(null, e,"Ayarlar okunurken hata");
+		
+		SwingUtilities.invokeLater
+		(
+			new Thread() {
+				public void run() {
+					new SwingKota();
+				}
+			}
+		);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==quit)
+			System.exit(0);
+		if(e.getSource()==settings)
+			new SwingSettings();
+		if(e.getSource()==about)
+			new SwingAbout();
+		if(e.getSource()==logfile) {
+			viewLogFile();
 		}
+		if(e.getSource()==clipboard) {
+			StringSelection stringSelection = new StringSelection(icon.getToolTip());
+			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			clipboard.setContents( stringSelection, this );
+		}
+		if(e.getSource()==statistics) {
+			new SwingStats();
+		}
+	}
+
+	@Override
+	public void updateQuota(String quota) {
+		icon.setToolTip(quota);
+	}
+
+	@Override
+	public void firstTime() {
+		new SwingSettings();
+	}
+
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
+
+	@Override
+	public void initUI() {
 		SystemTray tray =SystemTray.getSystemTray();
 		PopupMenu trayMenu=new PopupMenu();
 		settings=new MenuItem("Ayarlar");
@@ -51,6 +87,9 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 		clipboard=new MenuItem("Panoya kopyala");
 		clipboard.addActionListener(this);
 		trayMenu.add(clipboard);
+		statistics=new MenuItem("İstatistikler");
+		statistics.addActionListener(this);
+		trayMenu.add(statistics);
 		about=new MenuItem("Hakkında");
 		about.addActionListener(this);
 		trayMenu.add(about);
@@ -69,46 +108,18 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			e.printStackTrace();
 			System.exit(1);
 		}
-		startTimer();
-	}
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater
-		(
-				new Thread() {
-					public void run() {
-						new SwingKota();
-					}
-				}
-		);
-	}
-
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==quit)
-			System.exit(0);
-		if(e.getSource()==settings)
-			new SwingSettings(this);
-		if(e.getSource()==about)
-			new SwingAbout();
-		if(e.getSource()==logfile) {
-			viewLogFile();
-		}
-		if(e.getSource()==clipboard) {
-			StringSelection stringSelection = new StringSelection(icon.getToolTip());
-			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-			clipboard.setContents( stringSelection, this );
-		}
 	}
 
 	@Override
-	public void updateKota(String kota) {
-		icon.setToolTip(kota);
+	public String promptForMasterKey() {
+		String masterKey=null;
+		while(masterKey==null)
+			masterKey=JOptionPane.showInputDialog(null, "Ana şifre:");
+		return masterKey;
 	}
 
 	@Override
-	public void firstTime() {
-		new SwingSettings(this);
+	public void showError(Exception e) {
+		SwingUtil.error(null, e,"Ayarlar okunurken hata");
 	}
-
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {}
 }
