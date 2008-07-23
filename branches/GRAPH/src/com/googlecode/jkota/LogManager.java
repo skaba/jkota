@@ -35,6 +35,10 @@ public final class LogManager {
 		debugger.log(Level.WARNING,message,e);
 	}
 	
+	public void debug(String message) {
+		debugger.log(Level.WARNING,message);
+	}
+	
 	public void info(String message) {
 		logger.info(message);
 	}
