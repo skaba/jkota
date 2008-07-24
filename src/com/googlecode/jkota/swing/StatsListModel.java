@@ -7,7 +7,7 @@ import com.googlecode.jkota.QuotaInfo;
 import com.googlecode.jkota.Unit;
 
 public class StatsListModel extends AbstractTableModel implements TableModel {
-	
+
 	private QuotaInfo quotas[];
 	private static Class<?>[] classes={ String.class,Double.class,Double.class};
 	private Unit viewUnit;
@@ -49,5 +49,4 @@ public class StatsListModel extends AbstractTableModel implements TableModel {
 			return null;
 		}
 	}
-
 }

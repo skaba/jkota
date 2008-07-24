@@ -18,28 +18,33 @@ public class KabloNetDownloader extends BaseDownloader {
 
 	@Override
 	public boolean login(String username, String password) {
-		LogManager logManager=LogManager.getInstance();
+		LogManager logger=LogManager.getInstance();
 		try {
 			WebResponse response =conversation.getResponse("http://online.turksat.com.tr/fatura/login.php");
 			WebForm login=response.getForms()[0];
+			String captchaUrl="http://online.turksat.com.tr/num_valid.php?differ="+login.getParameterValue("yazdiran");
+			String captcha=extractCaptcha(captchaUrl);
+			if("".equals(captcha))
+				return false;
 			login.setParameter("user_name", username);
 			login.setParameter("user_pass", password);
+			login.setParameter("yazilan", captcha);
 			response=login.submit();
 			return true;
 		} catch (MalformedURLException e) {
-			logManager.debug("Login olurken hata",e);
+			logger.debug("Login olurken hata",e);
 		} catch (IOException e) {
-			logManager.debug("Login olurken hata",e);
+			logger.debug("Login olurken hata",e);
 		} catch (SAXException e) {
-			logManager.debug("Login olurken hata",e);
+			logger.debug("Login olurken hata",e);
 		}
 		catch (HttpException e) {
-			logManager.debug("Login olurken hata",e);
+			logger.debug("Login olurken hata",e);
 		}
-		logManager.info("Kota isteği: Başarısız (Login hatası)");
+		logger.info("Kota isteği: Başarısız (Login hatası)");
 		return false;
 	}
-	
+
 	@Override
 	public boolean downloadQuota() {
 		LogManager logManager=LogManager.getInstance();
@@ -62,7 +67,6 @@ public class KabloNetDownloader extends BaseDownloader {
 				quotas[i]=info;
 			}
 			lastQuota= "Download: "+list.getCellAsText(1,2)+" Upload: "+list.getCellAsText(1,1);
-			
 			logManager.info("Kota isteği: Başarılı ("+ lastQuota+")");
 			return true;
 		} catch (MalformedURLException e) {
@@ -75,10 +79,11 @@ public class KabloNetDownloader extends BaseDownloader {
 		logManager.info("Kota isteği: Başarısız (Kota alımında hata)");
 		return false;
 	}
-	
-	private long parseQuotaString(String quota) {
-		double value=Double.parseDouble(quota.substring(0,quota.indexOf(' ')));
-		return Math.round(value*Unit.valueOf(quota.substring(quota.length()-2)).getDivider());
-	}
 
+	private long parseQuotaString(String quota) {
+		if(quota.indexOf('(') >0)
+			quota=quota.substring(0, quota.indexOf('(')-1);
+		double value=Double.parseDouble(quota.substring(0,quota.indexOf(' ')));
+		return Math.round(value*Unit.valueOf(quota.substring(quota.indexOf(' ')+1)).getDivider());
+	}
 }

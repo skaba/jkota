@@ -20,11 +20,11 @@ public class JHelpText extends JPanel {
 	private JTextField input;
 	private JLabel helpButton;
 	private static Color DEFAULT_COLOR;
-	
+
 	static {
 		DEFAULT_COLOR=(new JLabel()).getForeground();
 	}
-	
+
 	public JHelpText(String initialValue,final String helpURL,boolean isPassword) {
 		super(new FlowLayout());
 		if(isPassword)
@@ -61,7 +61,6 @@ public class JHelpText extends JPanel {
 		);
 		add(helpButton);
 	}
-	
-	public String getText() { return input.getText(); }
 
+	public String getText() { return input.getText(); }
 }
