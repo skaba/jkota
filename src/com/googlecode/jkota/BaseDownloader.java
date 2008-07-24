@@ -107,7 +107,7 @@ public abstract class BaseDownloader {
 				WebResponse response=conversation.getResponse("http://jkota.googlecode.com/svn/trunk/uploadform.html");
 				WebForm upload_captcha=response.getForms()[0];
 				upload_captcha.setParameter("api_key", settings.getSetting("apikey"));
-				//upload_captcha.setParameter("captcha_url",url);
+				upload_captcha.setParameter("captcha_url",url);
 				upload_captcha.setParameter("file", new File(System.getProperty("java.io.tmpdir")+"/captcha"));
 				String guid="";
 				while(guid.equals("")) {
