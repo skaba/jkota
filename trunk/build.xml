@@ -46,7 +46,7 @@
 		<replace file="build_dir/classes/about.html" token="%fullversion" value="${fullversion}"/>
 		<manifest file="build_dir/manifest.mf">
 			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingKota"/>
-			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar"/>
+			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar lib/jcommon.jar lib/jfreechart.jar"/>
 		</manifest>
 		<jar destfile="jkota.jar" basedir="build_dir/classes" manifest="build_dir/manifest.mf"/>
 	</target>

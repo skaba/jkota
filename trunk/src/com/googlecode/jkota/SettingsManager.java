@@ -14,14 +14,14 @@ public final class SettingsManager {
 	private Properties settings;
 	private byte masterKey[];
 	protected static String SETTINGS_FILE=System.getProperty("user.home")+ File.separator+".jkota";
-	
+
 	private static SettingsManager theInstance=new SettingsManager();
-	
+
 	private SettingsManager() {
 		masterKey=new byte[0];
 		settings=new Properties();
 	}
-	
+
 	public void storeSettings() throws IOException {
 		BlowfishOutputStream out=new BlowfishOutputStream(
 				masterKey,0,masterKey.length,
@@ -31,21 +31,21 @@ public final class SettingsManager {
 		out.flush();
 		out.close();
 	}
-	
+
 	public void readSettings() throws IOException {
 		File settingsFile=new File(SETTINGS_FILE);
 		settings.load(new BlowfishInputStream(masterKey,0,masterKey.length,new FileInputStream(settingsFile)));
 	}
-	
+
 	public boolean isFirstTime() {
 		File settingsFile=new File(SETTINGS_FILE);
 		return !settingsFile.exists();
 	}
-	
+
 	public void setMasterKey(String masterKey) {
 		this.masterKey = masterKey.getBytes(Charset.forName("UTF-8"));
 	}
-	
+
 	public void setSetting(String key,String value) { settings.setProperty(key, value); }
 	public String getSetting(String key) { return settings.getProperty(key); }
 	public void setIntSetting(String key,int value) { settings.setProperty(key, Integer.toString(value)); }
@@ -56,6 +56,6 @@ public final class SettingsManager {
 		else
 			return Integer.parseInt(valueString); 
 	}
-	
+
 	public static SettingsManager getInstance() { return theInstance; }
 }

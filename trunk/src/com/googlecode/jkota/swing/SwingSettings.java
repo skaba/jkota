@@ -1,13 +1,12 @@
 package com.googlecode.jkota.swing;
 
-import java.io.IOException;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,8 +38,6 @@ public class SwingSettings extends JDialog implements ActionListener {
 		if(updater!=null)
 			updaterList.setSelectedItem(updater);
 		updaterList.setEditable(false);
-		updaterList.setActionCommand("list");
-		updaterList.addActionListener(this);
 		settingsPanel.add(updaterList);
 		settingsPanel.add(new JLabel("Kullanıcı adı:"));
 		userName=new JHelpText(settings.getSetting("username"),"http://code.google.com/p/jkota/wiki/KullanimDokumani",false);
@@ -67,7 +64,6 @@ public class SwingSettings extends JDialog implements ActionListener {
 		setResizable(false);
 		SwingUtil.center(this);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		hideShowAPIKey();
 		setVisible(true);
 	}
 
@@ -84,19 +80,6 @@ public class SwingSettings extends JDialog implements ActionListener {
 				SwingUtil.error(this, e1,"Ayarlar kaydedilirken hata");
 			}
 			dispose();
-		}
-		else if("list".equals(e.getActionCommand()))
-			hideShowAPIKey();
-	}
-	
-	private void hideShowAPIKey() {
-		if(updaterList.getSelectedItem().equals("TTNet ADSL")) {
-			apiKeyLabel.setVisible(true);
-			apiKey.setVisible(true);
-		}
-		else {
-			apiKeyLabel.setVisible(false);
-			apiKey.setVisible(false);
 		}
 	}
 }

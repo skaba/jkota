@@ -14,7 +14,7 @@ public class SwingUtil {
 		out.flush();
 		JOptionPane.showMessageDialog(parent, out.getBuffer(), title, JOptionPane.ERROR_MESSAGE);
 	}
-	
+
 	public static void center(Component component) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();

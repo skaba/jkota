@@ -32,7 +32,7 @@ public class SwingStats extends JFrame {
 			dataset.addValue((double)info.getDownloadedBytes()/viewUnit.getDivider(), "Download", info.getMonth());
 			dataset.addValue((double)info.getUploadedBytes()/viewUnit.getDivider(), "Upload", info.getMonth());
 		}
-		
+
 		JFreeChart chart = ChartFactory.createLineChart(
 			null,
 			"Ay",
@@ -45,7 +45,7 @@ public class SwingStats extends JFrame {
 		);
 		chart.setAntiAlias(true);
 		ChartPanel chartPanel = new ChartPanel(chart);
-		
+
 		StatsListModel model = new StatsListModel(quotas,viewUnit);
 		JTable statslist=new JTable(model);
 		JScrollPane scroller=new JScrollPane(statslist);

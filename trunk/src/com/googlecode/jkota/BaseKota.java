@@ -14,7 +14,7 @@ public abstract class BaseKota {
 	public abstract void showError(Exception e);
 	public abstract void firstTime();
 	public abstract void updateQuota(String quota);
-	
+
 	public BaseKota() {
 		final SettingsManager settings=SettingsManager.getInstance();
 		if(settings.isFirstTime())
@@ -42,13 +42,12 @@ public abstract class BaseKota {
 					}
 					updateQuota(downloader.getLastQuota());
 				}
-				
 			},
 			new Date(),
 			60000*settings.getIntSetting("updateinterval",10)
 		);
 	}
-	
+
 	public void viewLogFile() {
 		Desktop desktop = Desktop.getDesktop();
 		try {

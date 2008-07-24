@@ -13,6 +13,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
 public class SwingAbout extends JDialog implements HyperlinkListener {
+
 	public SwingAbout() {
 		super((Frame)null,"JKota Hakkında",true);
 		JTabbedPane tabs=new JTabbedPane();
