@@ -76,7 +76,7 @@ java -jar "`dirname \"$0\"`"/jkota.jar
 	<target name="unix_package" depends="init-svn,init-release">
 		<antcall target="distcopy"/>
 		<antcall target="sh"/>
-		<tar destfile="dist/jkota.tar.gz" basedir="dist" compression="gzip"/>
+		<tar destfile="dist/jkota-${fullversion}.tar.gz" basedir="dist" compression="gzip"/>
 	</target>
 	
 	<target name="windows_package" depends="init-svn,init-release">
@@ -88,9 +88,7 @@ java -jar "`dirname \"$0\"`"/jkota.jar
 	<target name="all_packages" depends="init-svn,init-release">
 		<antcall target="distcopy"/>
 		<antcall target="sh"/>
-		<tar destfile="dist/jkota.tar" basedir="dist"/>
-		<gzip src="dist/jkota.tar" destfile="dist/jkota-${fullversion}.tar.gz"/>
-		<delete file="dist/jkota.tar"/>
+		<tar destfile="dist/jkota-${fullversion}.tar.gz" basedir="dist" compression="gzip"/>
 		<antcall target="exe"/>
 		<zip destfile="dist/jkota-${fullversion}.zip" basedir="dist" excludes="jkota,jkota-${fullversion}.tar.gz"/>
 	</target>
