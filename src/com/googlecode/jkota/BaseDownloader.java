@@ -53,11 +53,18 @@ public abstract class BaseDownloader {
 
 	public synchronized boolean update() {
 		SettingsManager settings=SettingsManager.getInstance();
-		if (!login(settings.getSetting("username"),settings.getSetting("password")))
+		LogManager logger=LogManager.getInstance();
+		logger.info("Güncelleme işlemine başlandı",true);
+		if (!login(settings.getSetting("username"),settings.getSetting("password"))) {
+			logger.warning("Güncelleme: Başarısız (Login işleminde hata)",true);
 			return false;
-		if(!downloadQuota())
+		}
+		if(!downloadQuota()) {
+			logger.warning("Güncelleme: Başarısız (Kota bilgileri alımında hata)",true);
 			return false;
+		}
 		viewUnit=calculateUnit();
+		logger.info("Güncelleme: Başarılı ("+ lastQuota+")",true);
 		return true;
 	}
 
@@ -90,11 +97,11 @@ public abstract class BaseDownloader {
 			logger.info("Captcha alındı");
 			return true;
 		} catch (MalformedURLException e) {
-			logger.debug("Güvenlik kodu indirilirken hata",e);
+			logger.warning("Güvenlik kodu indirilirken hata",e);
 		} catch (IOException e) {
-			logger.debug("Güvenlik kodu indirilirken hata",e);
+			logger.warning("Güvenlik kodu indirilirken hata",e);
 		} catch (SAXException e) {
-			logger.debug("Güvenlik kodu indirilirken hata",e);
+			logger.warning("Güvenlik kodu indirilirken hata",e);
 		}
 		return false;
 	}
@@ -116,7 +123,7 @@ public abstract class BaseDownloader {
 					if(responseText.startsWith("SUCCESS: captcha_id="))
 						guid=responseText.substring(20);
 					else {
-						logger.debug
+						logger.warning
 						(
 								"Güvenlik kodu gönderilirken hata: "+
 								responseText.substring(9)
@@ -143,7 +150,7 @@ public abstract class BaseDownloader {
 						Thread.sleep(10000);
 					}
 					else if(responseText.startsWith("FAILURE")) {
-						logger.debug
+						logger.warning
 						(
 								"Güvenlik kodu çözülürken hata: "+
 								responseText.substring(9)
@@ -156,15 +163,15 @@ public abstract class BaseDownloader {
 					logger.info("Captcha çözüldü: "+captcha);
 				return captcha;
 			} catch (MalformedURLException e) {
-				logger.debug("Güvenlik kodu çözülürken hata",e);
+				logger.warning("Güvenlik kodu çözülürken hata",e);
 			} catch (FileNotFoundException e) {
-				logger.debug("Güvenlik kodu çözülürken hata",e);
+				logger.warning("Güvenlik kodu çözülürken hata",e);
 			} catch (IOException e) {
-				logger.debug("Güvenlik kodu çözülürken hata",e);
+				logger.warning("Güvenlik kodu çözülürken hata",e);
 			} catch (SAXException e) {
-				logger.debug("Güvenlik kodu çözülürken hata",e);
+				logger.warning("Güvenlik kodu çözülürken hata",e);
 			} catch (InterruptedException e) {
-				logger.debug("Güvenlik kodu çözülürken hata",e);
+				logger.warning("Güvenlik kodu çözülürken hata",e);
 			}
 			(new File(System.getProperty("java.io.tmpdir")+"/captcha")).delete();
 			return "";
