@@ -11,37 +11,52 @@ public final class LogManager {
 
 	public static String LOG_FILE=System.getProperty("user.home")+ File.separator+"jkota.log";
 	private static LogManager theInstance=new LogManager();
-	private Logger logger,debugger;
+	private Logger fileLogger,consoleLogger;
+	private boolean debug=new Boolean(System.getProperty("debug"));
 	private LogManager() {
 		try {
-			logger= Logger.getLogger("JKota");
+			fileLogger= Logger.getLogger("file");
 			FileHandler fileHandler =new FileHandler(LOG_FILE,true);
 			fileHandler.setFormatter(new SimpleFormatter());
 			fileHandler.setLevel(Level.ALL);
-			logger.addHandler(fileHandler);
-			logger.setLevel(Level.ALL);
-			debugger=Logger.getLogger("JKota");
-			logger.setLevel(Level.ALL);
+			fileLogger.addHandler(fileHandler);
+			fileLogger.setLevel(Level.ALL);
+			consoleLogger=Logger.getLogger("console");
+			consoleLogger.setLevel(Level.ALL);
 		} catch (SecurityException e) {
-			logger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
+			consoleLogger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
 			System.exit(-1);
 		} catch (IOException e) {
-			logger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
+			consoleLogger.log(Level.SEVERE,"Kayıtçı alınamadı",e);
 			System.exit(-1);
 		}
 	}
 
-	public void debug(String message,Exception e) {
-		debugger.log(Level.WARNING,message,e);
-	}
+	public static LogManager getInstance() { return theInstance; }
 
-	public void debug(String message) {
-		debugger.log(Level.WARNING,message);
+	public void info(String message, boolean printToFile) {
+		if(printToFile || debug)
+			fileLogger.info(message);
+		else
+			consoleLogger.info(message);
 	}
 
 	public void info(String message) {
-		logger.info(message);
+		info(message,false);
 	}
 
-	public static LogManager getInstance() { return theInstance; }
+	public void warning(String message, Exception e) {
+		consoleLogger.log(Level.WARNING,message,e);
+	}
+
+	public void warning(String message,boolean printToFile) {
+		if(printToFile || debug)
+			fileLogger.log(Level.WARNING,message);
+		else
+			consoleLogger.log(Level.WARNING,message);
+	}
+
+	public void warning(String message) {
+		warning(message,false);
+	}
 }

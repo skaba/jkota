@@ -32,26 +32,25 @@ public class KabloNetDownloader extends BaseDownloader {
 			response=login.submit();
 			return true;
 		} catch (MalformedURLException e) {
-			logger.debug("Login olurken hata",e);
+			logger.warning("Login olurken hata",e);
 		} catch (IOException e) {
-			logger.debug("Login olurken hata",e);
+			logger.warning("Login olurken hata",e);
 		} catch (SAXException e) {
-			logger.debug("Login olurken hata",e);
+			logger.warning("Login olurken hata",e);
 		}
 		catch (HttpException e) {
-			logger.debug("Login olurken hata",e);
+			logger.warning("Login olurken hata",e);
 		}
-		logger.info("Kota isteği: Başarısız (Login hatası)");
 		return false;
 	}
 
 	@Override
 	public boolean downloadQuota() {
-		LogManager logManager=LogManager.getInstance();
+		LogManager logger=LogManager.getInstance();
 		try {
 			WebResponse response =conversation.getResponse("http://online.turksat.com.tr/fatura/kota_takip.php");
 			if(response.getText().indexOf("Bu sayfayı kullanabilmek için lüften giriş yapınız")>0) {
-				logManager.info("Kota isteği: Başarısız (Login problemi)");
+				logger.warning("Giriş yapılmamış");
 				return false;
 			}
 			WebTable list=response.getTables()[0];
@@ -67,16 +66,14 @@ public class KabloNetDownloader extends BaseDownloader {
 				quotas[i]=info;
 			}
 			lastQuota= "Download: "+list.getCellAsText(1,2)+" Upload: "+list.getCellAsText(1,1);
-			logManager.info("Kota isteği: Başarılı ("+ lastQuota+")");
 			return true;
 		} catch (MalformedURLException e) {
-			logManager.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		} catch (IOException e) {
-			logManager.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		} catch (SAXException e) {
-			logManager.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		}
-		logManager.info("Kota isteği: Başarısız (Kota alımında hata)");
 		return false;
 	}
 

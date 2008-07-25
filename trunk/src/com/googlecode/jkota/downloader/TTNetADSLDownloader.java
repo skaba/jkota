@@ -24,11 +24,11 @@ public class TTNetADSLDownloader extends BaseDownloader {
 			WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/viewTransfer.do?dispatch=entry");
 			String responseText=response.getText();
 			if(responseText.indexOf("Sistem Hatası")>=0) {
-				logger.debug("Sistem Hatası");
+				logger.warning("Sistem Hatası");
 				return false;
 			}
 			if(responseText.indexOf("Oturum sonlandığından dolayı tekrar giriş yapmanız gerekmektedir.")>=0) {
-				logger.debug("Oturum sonlanmış");
+				logger.warning("Oturum sonlanmış");
 				return false;
 			}
 			WebTable list=response.getFirstMatchingTable(
@@ -55,14 +55,13 @@ public class TTNetADSLDownloader extends BaseDownloader {
 			}
 			lastQuota="Download: "+list.getCellAsText(list.getRowCount()-1,3)+" Upload: "+list.getCellAsText(list.getRowCount()-1,2);
 			response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/logout.do");
-			logger.info("Kota isteği: Başarılı ("+ lastQuota+")");
 			return true;
 		} catch (MalformedURLException e) {
-			logger.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		} catch (IOException e) {
-			logger.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		} catch (SAXException e) {
-			logger.debug("Kota alınırken hata",e);
+			logger.warning("Kota alınırken hata",e);
 		}
 		return false;
 	
@@ -79,7 +78,7 @@ public class TTNetADSLDownloader extends BaseDownloader {
 	public boolean login(String username, String password) {
 		String captcha=extractCaptcha("http://adslkota.ttnet.net.tr/adslkota/jcaptcha");
 		if(!"".equals(captcha)) {
-			LogManager logManager=LogManager.getInstance();
+			LogManager logger=LogManager.getInstance();
 			try {
 
 				WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/login_tr.jsp");
@@ -90,18 +89,18 @@ public class TTNetADSLDownloader extends BaseDownloader {
 				response=login.submit();
 				String submitText=response.getText();
 				if(submitText.indexOf("İşlem hatası")>=0) {
-					logManager.debug("Login problemi");
+					logger.warning("Login problemi");
 					return false;
 				}
 				conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
-				logManager.info("Login olundu");
+				logger.info("Login olundu");
 				return true;
 			} catch (MalformedURLException e) {
-				logManager.debug("Login olurken hata",e);
+				logger.warning("Login olurken hata",e);
 			} catch (IOException e) {
-				logManager.debug("Login olurken hata",e);
+				logger.warning("Login olurken hata",e);
 			} catch (SAXException e) {
-				logManager.debug("Login olurken hata",e);
+				logger.warning("Login olurken hata",e);
 			}
 		}
 		return false;
