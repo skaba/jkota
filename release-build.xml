@@ -5,6 +5,8 @@
 	</target>
 	
 	<target name="init-release" if="release">
+		<property name="fullversion" value="${version}"/>
+		<mkdir dir="dist"/>
 	</target>
 	
 	<path id="libs">
@@ -33,28 +35,11 @@
 		</manifest>
 		<jar destfile="jkota.jar" basedir="build_dir/classes" manifest="build_dir/manifest.mf"/>
 	</target>
-	
-	<target name="distcopy" depends="jar">
-		<delete dir="dist"/>
-		<mkdir dir="dist"/>
-		<mkdir dir="dist/lib"/>
-		<copy todir="dist/lib">
-			<fileset dir="lib">
-				<include name="*.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="dist/lisanslar">
-			<fileset dir="lisanslar">
-				<include name="*.LICENSE"/>
-			</fileset>
-		</copy>
-		<copy file="jkota.jar" todir="dist"/>
-	</target>
-	
+
 	<target name="exe">
 		<launch4j>
 			<config
-				outfile="dist/jkota.exe"
+				outfile="tmp/jkota.exe"
 				dontwrapjar="true"
 				icon="favicon.ico"
 				headertype="gui"
@@ -67,31 +52,41 @@
 	</target>
 	
 	<target name="sh">
-		<echo file="dist/jkota">#!/bin/sh
+		<echo file="tmp/jkota">#!/bin/sh
 java -jar "`dirname \"$0\"`"/jkota.jar
 		</echo>
 		<chmod file="dist/jkota" perm="755"/>
 	</target>
 	
-	<target name="unix_package" depends="init-svn,init-release">
-		<antcall target="distcopy"/>
+	<target name="unix_package" depends="jar">
+		<mkdir dir="tmp"/>
 		<antcall target="sh"/>
-		<tar destfile="dist/jkota-${fullversion}.tar.gz" basedir="dist" compression="gzip"/>
+		<tar destfile="dist/jkota-${fullversion}.tar.gz" compression="gzip">
+			<tarfileset prefix="jkota-${fullversion}" dir=".">
+				<include name="lib/**"/>
+				<include name="lisanslar/**"/>
+				<include name="jkota.jar"/>
+			</tarfileset>
+			<tarfileset mode="755" dir="." includes="tmp/jkota" fullpath="jkota-${fullversion}/jkota"/>
+		</tar>
+		<delete dir="tmp"/>
 	</target>
-	
-	<target name="windows_package" depends="init-svn,init-release">
-		<antcall target="distcopy"/>
+
+	<target name="windows_package" depends="jar">
+		<mkdir dir="tmp"/>
 		<antcall target="exe"/>
-		<zip destfile="dist/jkota-${fullversion}.zip" basedir="dist"/>
+		<zip destfile="dist/jkota-${fullversion}.zip">
+			<zipfileset prefix="jkota-${fullversion}" dir=".">
+				<include name="lib/**"/>
+				<include name="lisanslar/**"/>
+				<include name="jkota.jar"/>
+			</zipfileset>
+			<zipfileset dir="." includes="tmp/jkota.exe" fullpath="jkota-${fullversion}/jkota.exe"/>
+		</zip>
+		<delete dir="tmp"/>
 	</target>
-	
-	<target name="all_packages" depends="init-svn,init-release">
-		<antcall target="distcopy"/>
-		<antcall target="sh"/>
-		<tar destfile="dist/jkota-${fullversion}.tar.gz" basedir="dist" compression="gzip"/>
-		<antcall target="exe"/>
-		<zip destfile="dist/jkota-${fullversion}.zip" basedir="dist" excludes="jkota,jkota-${fullversion}.tar.gz"/>
-	</target>
+
+	<target name="all_packages" depends="unix_package,windows_package"/>
 	
 	<target name="clean">
 		<delete dir="build_dir"/>
