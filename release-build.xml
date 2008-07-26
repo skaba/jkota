@@ -70,7 +70,7 @@
 java -jar "`dirname \"$0\"`"/jkota.jar
 		</echo>
 		<echo file="tmp/jkota-debug">#!/bin/sh
-java -Ddebug=true-jar "`dirname \"$0\"`"/jkota.jar
+java -Ddebug=true -jar "`dirname \"$0\"`"/jkota.jar
 		</echo>
 		<chmod file="dist/jkota" perm="755"/>
 	</target>
