@@ -45,6 +45,7 @@ public class SwingStats extends JFrame {
 		);
 		chart.setAntiAlias(true);
 		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPopupMenu(null);
 
 		StatsListModel model = new StatsListModel(quotas,viewUnit);
 		JTable statslist=new JTable(model);
