@@ -97,10 +97,8 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 		trayMenu.add(quit);
 		ClassLoader loader=getClass().getClassLoader();
 		URL fileLocation=loader.getResource("favicon.png");
-		int width=tray.getTrayIconSize().width;
-		int height=tray.getTrayIconSize().height;
-		Image orj = Toolkit.getDefaultToolkit().getImage(fileLocation);
-		icon = new TrayIcon(orj.getScaledInstance(width, height, Image.SCALE_SMOOTH),null,trayMenu);
+		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(fileLocation),null,trayMenu);
+		icon.setImageAutoSize(true);
 		try {
 			tray.add(icon);
 		} catch (AWTException e) {
