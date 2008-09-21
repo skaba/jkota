@@ -18,7 +18,9 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.googlecode.jkota.BaseDownloader;
 import com.googlecode.jkota.BaseKota;
+import com.googlecode.jkota.SettingsManager;
 
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner {
 
@@ -57,7 +59,11 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			clipboard.setContents( stringSelection, this );
 		}
 		if(e.getSource()==statistics) {
-			new SwingStats();
+			BaseDownloader downloader=BaseDownloader.getInstance(SettingsManager.getInstance().getSetting("updater"));
+			if(downloader.getQuotaSize()==0)
+				SwingUtil.error(null, "Kota bilgileri alınmadan istatistikleri göremezsiniz", "HATA");
+			else
+				new SwingStats();
 		}
 	}
 
