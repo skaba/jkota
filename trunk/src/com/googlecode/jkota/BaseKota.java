@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public abstract class BaseKota {
+public abstract class BaseKota extends DownloadNotificationAdapter {
 	
 	public abstract String promptForMasterKey();
 	public abstract void initUI();
@@ -27,6 +27,7 @@ public abstract class BaseKota {
 				showError(e);
 			}
 		}
+		BaseDownloader.getInstance(settings.getSetting("updater")).addDownloadNotificationListener(this);
 		initUI();
 		Timer t = new Timer();
 		t.schedule(

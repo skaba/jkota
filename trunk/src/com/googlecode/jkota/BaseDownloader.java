@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.xml.sax.SAXException;
 
@@ -24,8 +26,10 @@ public abstract class BaseDownloader {
 	private Unit viewUnit;
 	public abstract boolean login(String username,String password);
 	public abstract boolean downloadQuota();
+	private List<DownloadNotificationListener> listeners;
 
 	protected BaseDownloader() {
+		listeners=new ArrayList<DownloadNotificationListener>();
 		quotas=new QuotaInfo[0];
 		conversation=new WebConversation();
 		conversation.setHeaderField("User-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)");
@@ -56,14 +60,17 @@ public abstract class BaseDownloader {
 		LogManager logger=LogManager.getInstance();
 		logger.info("Güncelleme işlemine başlandı",true);
 		if (!login(settings.getSetting("username"),settings.getSetting("password"))) {
+			fireDownloadNotificationEvent(new DownloadNotificationEvent(this,"Login işleminde hata",DownloadNotificationType.WARNING));
 			logger.warning("Güncelleme: Başarısız (Login işleminde hata)",true);
 			return false;
 		}
 		if(!downloadQuota()) {
+			fireDownloadNotificationEvent(new DownloadNotificationEvent(this,"Kota bilgileri alımında hata",DownloadNotificationType.WARNING));
 			logger.warning("Güncelleme: Başarısız (Kota bilgileri alımında hata)",true);
 			return false;
 		}
 		viewUnit=calculateUnit();
+		fireDownloadNotificationEvent(new DownloadNotificationEvent(this,"Kota bilgileri alındı",DownloadNotificationType.INFO));
 		logger.info("Güncelleme: Başarılı ("+ lastQuota+")",true);
 		return true;
 	}
@@ -177,6 +184,20 @@ public abstract class BaseDownloader {
 			return "";
 		}
 		return "";
+	}
+	
+	public void addDownloadNotificationListener(DownloadNotificationListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeDownloadNotificationListener(DownloadNotificationListener listener) {
+		listeners.remove(listener);
+	}
+	
+	public void fireDownloadNotificationEvent(DownloadNotificationEvent e) {
+		for (DownloadNotificationListener listener : listeners) {
+			listener.notification(e);
+		}
 	}
 
 	private void copyStream(InputStream in,OutputStream out) throws IOException {

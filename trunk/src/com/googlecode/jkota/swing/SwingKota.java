@@ -1,7 +1,6 @@
 package com.googlecode.jkota.swing;
 
 import java.awt.AWTException;
-import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -21,8 +20,11 @@ import javax.swing.SwingUtilities;
 import com.googlecode.jkota.BaseDownloader;
 import com.googlecode.jkota.BaseKota;
 import com.googlecode.jkota.SettingsManager;
+import com.googlecode.jkota.DownloadNotificationEvent;
+import com.googlecode.jkota.DownloadNotificationListener;
+import com.googlecode.jkota.DownloadNotificationType;
 
-public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner {
+public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner,DownloadNotificationListener {
 
 	private MenuItem quit,settings,about,logfile,clipboard,statistics;
 	private TrayIcon icon;
@@ -63,7 +65,7 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			if(downloader.getQuotaSize()==0)
 				SwingUtil.error(null, "Kota bilgileri alınmadan istatistikleri göremezsiniz", "HATA");
 			else
-				new SwingStats();
+			new SwingStats();
 		}
 	}
 
@@ -124,5 +126,13 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 	@Override
 	public void showError(Exception e) {
 		SwingUtil.error(null, e,"Ayarlar okunurken hata");
+	}
+
+	@Override
+	public void notification(DownloadNotificationEvent e) {
+		if(e.getType()==DownloadNotificationType.WARNING)
+			icon.displayMessage("UYARI", e.getMessage(),TrayIcon.MessageType.WARNING);
+		if(e.getType()==DownloadNotificationType.INFO)
+			icon.displayMessage("BİLGİ", e.getMessage(),TrayIcon.MessageType.INFO);
 	}
 }
