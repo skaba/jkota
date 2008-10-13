@@ -1,0 +1,116 @@
+<project name="jkota" default="jar">
+	
+	<property file="build.properties"/>
+	<target name="init-svn" unless="release">
+	</target>
+	
+	<target name="init-release" if="release">
+		<property name="fullversion" value="${version}"/>
+		<mkdir dir="dist"/>
+	</target>
+	
+	<path id="libs">
+	    <fileset dir="lib">
+	        <include name="*.jar"/>
+	    </fileset>
+	</path>
+	
+	<target name="compile">
+		<delete dir="build_dir"/>
+		<native2ascii encoding="UTF-8" src="src" dest="src_ascii" includes="**/*.java"/>
+		<mkdir dir="build_dir/classes"/>
+		<javac source="1.6" target="1.6" srcdir="src_ascii" destdir="build_dir/classes" classpathref="libs"/>
+		<delete dir="src_ascii"/>
+		<copy todir="build_dir/classes" file="favicon.png"/>
+		<copy todir="build_dir/classes" file="about.html"/>
+		<copy todir="build_dir/classes" file="thx.html"/>
+	</target>
+	
+	<target name="jar" depends="init-svn,init-release,compile">
+		<delete file="jkota.jar"/>
+		<replace file="build_dir/classes/about.html" token="%fullversion" value="${fullversion}"/>
+		<manifest file="build_dir/manifest.mf">
+			<attribute name="Main-Class" value="com.googlecode.jkota.swing.SwingKota"/>
+			<attribute name="Class-Path" value="lib/Tidy.jar lib/httpunit.jar lib/blowfishj.jar lib/jcommon.jar lib/jfreechart.jar"/>
+		</manifest>
+		<jar destfile="jkota.jar" basedir="build_dir/classes" manifest="build_dir/manifest.mf"/>
+	</target>
+
+	<target name="exe">
+		<launch4j>
+			<config
+				outfile="tmp/jkota.exe"
+				dontwrapjar="true"
+				icon="favicon.ico"
+				headertype="gui"
+				jarpath="jkota.jar"
+				customProcName="true"
+				stayAlive="false">
+				<jre minVersion="1.6.0" />
+			</config>
+		</launch4j>
+		<launch4j>
+			<config
+				outfile="tmp/jkota-debug.exe"
+				dontwrapjar="true"
+				icon="favicon.ico"
+				headertype="gui"
+				jarpath="jkota.jar"
+				customProcName="true"
+				stayAlive="false">
+				<jre minVersion="1.6.0">
+					<opt>-Ddebug=true</opt>
+				</jre>
+			</config>
+		</launch4j>
+	</target>
+	
+	<target name="sh">
+		<echo file="tmp/jkota">#!/bin/sh
+java -jar "`dirname \"$0\"`"/jkota.jar
+		</echo>
+		<echo file="tmp/jkota-debug">#!/bin/sh
+java -Ddebug=true -jar "`dirname \"$0\"`"/jkota.jar
+		</echo>
+		<chmod file="dist/jkota" perm="755"/>
+	</target>
+	
+	<target name="unix_package" depends="jar">
+		<mkdir dir="tmp"/>
+		<antcall target="sh"/>
+		<tar destfile="dist/jkota-${fullversion}.tar.gz" compression="gzip">
+			<tarfileset prefix="jkota-${fullversion}" dir=".">
+				<include name="lib/**"/>
+				<include name="lisanslar/**"/>
+				<include name="jkota.jar"/>
+			</tarfileset>
+			<tarfileset mode="755" dir="." includes="tmp/jkota" fullpath="jkota-${fullversion}/jkota"/>
+			<tarfileset mode="755" dir="." includes="tmp/jkota-debug" fullpath="jkota-${fullversion}/jkota-debug"/>
+		</tar>
+		<delete dir="tmp"/>
+	</target>
+
+	<target name="windows_package" depends="jar">
+		<mkdir dir="tmp"/>
+		<antcall target="exe"/>
+		<zip destfile="dist/jkota-${fullversion}.zip">
+			<zipfileset prefix="jkota-${fullversion}" dir=".">
+				<include name="lib/**"/>
+				<include name="lisanslar/**"/>
+				<include name="jkota.jar"/>
+			</zipfileset>
+			<zipfileset dir="." includes="tmp/jkota.exe" fullpath="jkota-${fullversion}/jkota.exe"/>
+			<zipfileset dir="." includes="tmp/jkota-debug.exe" fullpath="jkota-${fullversion}/jkota-debug.exe"/>
+		</zip>
+		<delete dir="tmp"/>
+	</target>
+
+	<target name="all_packages" depends="unix_package,windows_package"/>
+	
+	<target name="clean">
+		<delete dir="build_dir"/>
+		<delete dir="dist"/>
+		<delete file="jkota.jar"/>
+	</target>
+	
+</project>
