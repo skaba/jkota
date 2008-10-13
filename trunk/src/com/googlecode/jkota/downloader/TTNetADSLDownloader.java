@@ -21,7 +21,7 @@ public class TTNetADSLDownloader extends BaseDownloader {
 	public boolean downloadQuota() {
 		LogManager logger=LogManager.getInstance();
 		try {
-			WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/viewTransfer.do?dispatch=entry");
+			WebResponse response =conversation.getResponse("http://adslkota.ttnet.com.tr/adslkota/viewTransfer.do?dispatch=entry");
 			String responseText=response.getText();
 			if(responseText.indexOf("Sistem Hatası")>=0) {
 				logger.warning("Sistem Hatası");
@@ -54,7 +54,7 @@ public class TTNetADSLDownloader extends BaseDownloader {
 				quotas[i]=info;
 			}
 			lastQuota="Download: "+list.getCellAsText(list.getRowCount()-1,3)+" Upload: "+list.getCellAsText(list.getRowCount()-1,2);
-			response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/logout.do");
+			response =conversation.getResponse("http://adslkota.ttnet.com.tr/adslkota/logout.do");
 			return true;
 		} catch (MalformedURLException e) {
 			logger.warning("Kota alınırken hata",e);
@@ -76,12 +76,12 @@ public class TTNetADSLDownloader extends BaseDownloader {
 
 	@Override
 	public boolean login(String username, String password) {
-		String captcha=extractCaptcha("http://adslkota.ttnet.net.tr/adslkota/jcaptcha");
+		String captcha=extractCaptcha("http://adslkota.ttnet.com.tr/adslkota/jcaptcha");
 		if(!"".equals(captcha)) {
 			LogManager logger=LogManager.getInstance();
 			try {
 
-				WebResponse response =conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/login_tr.jsp");
+				WebResponse response =conversation.getResponse("http://adslkota.ttnet.com.tr/adslkota/login_tr.jsp");
 				WebForm login=response.getForms()[0];
 				login.setParameter("userName", username);
 				login.setParameter("password", password);
@@ -92,7 +92,7 @@ public class TTNetADSLDownloader extends BaseDownloader {
 					logger.warning("Login problemi");
 					return false;
 				}
-				conversation.getResponse("http://adslkota.ttnet.net.tr/adslkota/confirmAgreement.do?dispatch=agree");
+				conversation.getResponse("http://adslkota.ttnet.com.tr/adslkota/confirmAgreement.do?dispatch=agree");
 				logger.info("Login olundu");
 				return true;
 			} catch (MalformedURLException e) {

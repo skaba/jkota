@@ -19,10 +19,10 @@ import javax.swing.SwingUtilities;
 
 import com.googlecode.jkota.BaseDownloader;
 import com.googlecode.jkota.BaseKota;
-import com.googlecode.jkota.SettingsManager;
 import com.googlecode.jkota.DownloadNotificationEvent;
 import com.googlecode.jkota.DownloadNotificationListener;
 import com.googlecode.jkota.DownloadNotificationType;
+import com.googlecode.jkota.SettingsManager;
 
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner,DownloadNotificationListener {
 
