@@ -1,0 +1,2 @@
+=Sürümlere göre JKota indirme sayıları=
+http://ebuild.linux-sevenler.org/jkota-grafik.php&hede.png
