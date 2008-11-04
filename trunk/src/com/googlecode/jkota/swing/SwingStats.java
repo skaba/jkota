@@ -20,11 +20,11 @@ import com.googlecode.jkota.Unit;
 
 public class SwingStats extends JFrame {
 	public SwingStats() {
-		super("İnternet Kullanım İstatistikleri");
 		SettingsManager settings=SettingsManager.getInstance();
-		Unit viewUnit=BaseDownloader.getInstance(settings.getSetting("updater")).getViewUnit();
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		BaseDownloader downloader=BaseDownloader.getInstance(settings.getSetting("updater"));
+		setTitle("İnternet Kullanım İstatistikleri (" + settings.getSetting("updater") + ":" + settings.getSetting("username") + ")");
+		Unit viewUnit=downloader.getViewUnit();
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		QuotaInfo quotas[]=new QuotaInfo[downloader.getQuotaSize()];
 		for(int i=0;i<downloader.getQuotaSize();i++) {
 			QuotaInfo info = downloader.getQuota(i);
