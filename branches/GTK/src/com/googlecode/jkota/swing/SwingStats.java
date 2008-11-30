@@ -55,7 +55,7 @@ public class SwingStats extends JFrame {
 		contentPane.add(chartPanel,BorderLayout.PAGE_START);
 		contentPane.add(scroller,BorderLayout.CENTER);
 		setSize(780,580);
-		SwingUtil.center(this);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}

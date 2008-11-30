@@ -24,6 +24,7 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 				settings.readSettings();
 			} catch (IOException e) {
 				showError(e);
+				System.exit(-1);
 			}
 		}
 		BaseDownloader.getInstance(settings.getSetting("updater")).addDownloadNotificationListener(this);

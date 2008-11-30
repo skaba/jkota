@@ -62,7 +62,7 @@ public class SwingSettings extends JDialog implements ActionListener {
 		getContentPane().add(ok,BorderLayout.SOUTH);
 		setSize(300,200);
 		setResizable(false);
-		SwingUtil.center(this);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setVisible(true);
 	}
