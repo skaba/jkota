@@ -66,8 +66,7 @@ public class GtkKota extends BaseKota {
 
 	@Override
 	public void showError(Exception e) {
-		// TODO Auto-generated method stub
-
+		GtkUtil.error(null, e, "HATA");
 	}
 
 	@Override

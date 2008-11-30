@@ -136,7 +136,7 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 
 	@Override
 	public void showError(Exception e) {
-		SwingUtil.error(null, e,"Ayarlar okunurken hata");
+		SwingUtil.error(null, e,"HATA");
 	}
 
 	@Override

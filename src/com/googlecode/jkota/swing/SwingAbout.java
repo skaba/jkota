@@ -39,7 +39,7 @@ public class SwingAbout extends JDialog implements HyperlinkListener {
 		getContentPane().add(tabs,BorderLayout.CENTER);
 		setSize(400,200);
 		setResizable(false);
-		SwingUtil.center(this);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
