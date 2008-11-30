@@ -38,17 +38,18 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			JOptionPane.showMessageDialog(null,"Sistem tepsisi desteklenmiyor.\nJKota kapatılacak", "HATA", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
-		
+
 		SwingUtilities.invokeLater
 		(
-			new Thread() {
-				public void run() {
-					new SwingKota();
+				new Thread() {
+					@Override
+					public void run() {
+						new SwingKota();
+					}
 				}
-			}
 		);
 	}
-	
+
 	public void viewLogFile() {
 		Desktop desktop = Desktop.getDesktop();
 		try {
@@ -80,7 +81,7 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			if(downloader.getQuotaSize()==0)
 				SwingUtil.error(null, "Kota bilgileri alınmadan istatistikleri göremezsiniz", "HATA");
 			else
-			new SwingStats();
+				new SwingStats();
 		}
 	}
 

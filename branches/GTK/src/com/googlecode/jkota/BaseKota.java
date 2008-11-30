@@ -1,14 +1,12 @@
 package com.googlecode.jkota;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class BaseKota extends DownloadNotificationAdapter {
-	
+
 	public abstract String promptForMasterKey();
 	public abstract void initUI();
 	public abstract void showError(Exception e);
@@ -32,24 +30,24 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 		initUI();
 		updater = new Timer();
 		updater.schedule(
-			new TimerTask() {
+				new TimerTask() {
 
-				@Override
-				public void run() {
-					updateQuota("Kota güncelleniyor");
-					BaseDownloader downloader=BaseDownloader.getInstance(settings.getSetting("updater"));
-					while(true) {
-						if (downloader.update())
-							break;
+					@Override
+					public void run() {
+						updateQuota("Kota güncelleniyor");
+						BaseDownloader downloader=BaseDownloader.getInstance(settings.getSetting("updater"));
+						while(true) {
+							if (downloader.update())
+								break;
+						}
+						updateQuota(downloader.getLastQuota());
 					}
-					updateQuota(downloader.getLastQuota());
-				}
-			},
-			new Date(),
-			60000*settings.getIntSetting("updateinterval",10)
+				},
+				new Date(),
+				60000*settings.getIntSetting("updateinterval",10)
 		);
 	}
-	
+
 	protected final void preQuit() {
 		updater.cancel();
 	}

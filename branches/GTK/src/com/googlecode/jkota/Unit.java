@@ -15,5 +15,5 @@ public enum Unit {
 
 	public final long getDivider() {
 		return divider;
-	}	
+	}
 }

@@ -1,7 +1,7 @@
 package com.googlecode.jkota;
 
 public class DownloadNotificationAdapter implements
-		DownloadNotificationListener {
+DownloadNotificationListener {
 
 	@Override
 	public void notification(DownloadNotificationEvent e) {

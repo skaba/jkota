@@ -185,15 +185,15 @@ public abstract class BaseDownloader {
 		}
 		return "";
 	}
-	
+
 	public void addDownloadNotificationListener(DownloadNotificationListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void removeDownloadNotificationListener(DownloadNotificationListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	public void fireDownloadNotificationEvent(DownloadNotificationEvent e) {
 		for (DownloadNotificationListener listener : listeners) {
 			listener.notification(e);

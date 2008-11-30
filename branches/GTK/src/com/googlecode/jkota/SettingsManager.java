@@ -54,7 +54,7 @@ public final class SettingsManager {
 		if(valueString==null)
 			return defaultSetting;
 		else
-			return Integer.parseInt(valueString); 
+			return Integer.parseInt(valueString);
 	}
 
 	public static SettingsManager getInstance() { return theInstance; }

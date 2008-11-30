@@ -59,9 +59,9 @@ public class KabloNetDownloader extends BaseDownloader {
 			for(int i=0;i<quotas.length;i++) {
 				QuotaInfo info=new QuotaInfo
 				(
-					list.getCellAsText(list.getRowCount()-i-1, 0),
-					parseQuotaString(list.getCellAsText(list.getRowCount()-i-1, 2)),
-					parseQuotaString(list.getCellAsText(list.getRowCount()-i-1, 1))
+						list.getCellAsText(list.getRowCount()-i-1, 0),
+						parseQuotaString(list.getCellAsText(list.getRowCount()-i-1, 2)),
+						parseQuotaString(list.getCellAsText(list.getRowCount()-i-1, 1))
 				);
 				quotas[i]=info;
 			}

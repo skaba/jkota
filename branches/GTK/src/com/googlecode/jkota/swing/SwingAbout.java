@@ -55,5 +55,5 @@ public class SwingAbout extends JDialog implements HyperlinkListener {
 				e1.printStackTrace();
 			}
 		}
-	}	
+	}
 }
