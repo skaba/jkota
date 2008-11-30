@@ -59,8 +59,10 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==quit)
+		if(e.getSource()==quit) {
+			preQuit();
 			System.exit(0);
+		}
 		if(e.getSource()==settings)
 			new SwingSettings();
 		if(e.getSource()==about)

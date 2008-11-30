@@ -14,6 +14,7 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 	public abstract void showError(Exception e);
 	public abstract void firstTime();
 	public abstract void updateQuota(String quota);
+	private Timer updater;
 
 	public BaseKota() {
 		final SettingsManager settings=SettingsManager.getInstance();
@@ -29,8 +30,8 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 		}
 		BaseDownloader.getInstance(settings.getSetting("updater")).addDownloadNotificationListener(this);
 		initUI();
-		Timer t = new Timer();
-		t.schedule(
+		updater = new Timer();
+		updater.schedule(
 			new TimerTask() {
 
 				@Override
@@ -47,5 +48,9 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 			new Date(),
 			60000*settings.getIntSetting("updateinterval",10)
 		);
+	}
+	
+	protected final void preQuit() {
+		updater.cancel();
 	}
 }
