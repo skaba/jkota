@@ -86,8 +86,10 @@ public class GtkKota extends BaseKota {
 	public class TrayMenuHandler implements org.gnome.gtk.MenuItem.Activate {
 		@Override
 		public void onActivate(MenuItem source) {
-			if(source==quit)
-	            Gtk.mainQuit();//FIXME: Bu neden çıkmıyor?
+			if(source==quit) {
+				preQuit();
+	            Gtk.mainQuit();
+			}
 		    if(source==logfile)
 				try {
 					Gtk.showURI(new URI("file://"+LogManager.LOG_FILE));
