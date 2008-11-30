@@ -101,24 +101,12 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 	public void initUI() {
 		SystemTray tray =SystemTray.getSystemTray();
 		PopupMenu trayMenu=new PopupMenu();
-		settings=new MenuItem("Ayarlar");
-		settings.addActionListener(this);
-		trayMenu.add(settings);
-		logfile=new MenuItem("Günlük");
-		logfile.addActionListener(this);
-		trayMenu.add(logfile);
-		clipboard=new MenuItem("Panoya kopyala");
-		clipboard.addActionListener(this);
-		trayMenu.add(clipboard);
-		statistics=new MenuItem("İstatistikler");
-		statistics.addActionListener(this);
-		trayMenu.add(statistics);
-		about=new MenuItem("Hakkında");
-		about.addActionListener(this);
-		trayMenu.add(about);
-		quit=new MenuItem("Çıkış");
-		quit.addActionListener(this);
-		trayMenu.add(quit);
+		settings=createMenuItem("Ayarlar", trayMenu);
+		logfile=createMenuItem("Günlük", trayMenu);
+		clipboard=createMenuItem("Panoya kopyala", trayMenu);
+		statistics=createMenuItem("İstatistikler", trayMenu);
+		about=createMenuItem("Hakkında", trayMenu);
+		quit=createMenuItem("Çıkış", trayMenu);
 		ClassLoader loader=getClass().getClassLoader();
 		URL fileLocation=loader.getResource("favicon.png");
 		icon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(fileLocation),null,trayMenu);
@@ -129,6 +117,13 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+
+	private MenuItem createMenuItem(String label,PopupMenu trayMenu) {
+		MenuItem item=new MenuItem(label);
+		item.addActionListener(this);
+		trayMenu.add(item);
+		return item;
 	}
 
 	@Override

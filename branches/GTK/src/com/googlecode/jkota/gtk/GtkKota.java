@@ -15,7 +15,7 @@ import com.googlecode.jkota.LogManager;
 
 public class GtkKota extends BaseKota {
 
-	private MenuItem quit,settings,about,logfile,clipboard;
+	private MenuItem quit,settings,about,logfile,clipboard,statistics;
 	private StatusIcon icon;
 	private String quotaText;
 
@@ -34,20 +34,19 @@ public class GtkKota extends BaseKota {
 					public void onPopupMenu(StatusIcon source, int arg1, int arg2) {
 						TrayMenuHandler handler=new TrayMenuHandler();
 						Menu trayMenu=new Menu();
-						logfile=new MenuItem("Günlük");
-						trayMenu.append(logfile);
-						logfile.connect(handler);
-						about=new MenuItem("Hakkında");
-						trayMenu.append(about);
-						about.connect(handler);
-						quit=new MenuItem("Çıkış");
-						trayMenu.append(quit);
-						quit.connect(handler);
-						clipboard=new MenuItem("Panoya kopyala");
-						clipboard.connect(handler);
-						trayMenu.append(clipboard);
+						logfile=creteMenuItem("Günlük", trayMenu, handler);
+						about=creteMenuItem("Hakkında", trayMenu, handler);
+						quit=creteMenuItem("Çıkış", trayMenu, handler);
+						clipboard=creteMenuItem("Panoya kopyala", trayMenu, handler);
 						trayMenu.showAll();
 						trayMenu.popup(source);
+					}
+
+					private MenuItem creteMenuItem(String label,Menu trayMenu, TrayMenuHandler handler) {
+						MenuItem item=new MenuItem(label);
+						trayMenu.add(item);
+						item.connect(handler);
+						return item;
 					}
 				}
 		);
