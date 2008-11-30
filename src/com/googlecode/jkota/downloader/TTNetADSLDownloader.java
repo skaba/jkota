@@ -47,9 +47,9 @@ public class TTNetADSLDownloader extends BaseDownloader {
 			for(int i=0;i<quotas.length;i++) {
 				QuotaInfo info=new QuotaInfo
 				(
-					list.getCellAsText(i+2, 0)+" "+list.getCellAsText(i+2, 1),
-					parseQuotaString(list.getCellAsText(i+2, 3)),
-					parseQuotaString(list.getCellAsText(i+2, 2))
+						list.getCellAsText(i+2, 0)+" "+list.getCellAsText(i+2, 1),
+						parseQuotaString(list.getCellAsText(i+2, 3)),
+						parseQuotaString(list.getCellAsText(i+2, 2))
 				);
 				quotas[i]=info;
 			}
@@ -64,7 +64,7 @@ public class TTNetADSLDownloader extends BaseDownloader {
 			logger.warning("Kota alınırken hata",e);
 		}
 		return false;
-	
+
 	}
 
 	private long parseQuotaString(String quota) {
@@ -106,5 +106,5 @@ public class TTNetADSLDownloader extends BaseDownloader {
 		return false;
 	}
 
-	
+
 }

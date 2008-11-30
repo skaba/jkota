@@ -20,13 +20,13 @@ import com.googlecode.jkota.BaseDownloader;
 import com.googlecode.jkota.SettingsManager;
 
 public class SwingSettings extends JDialog implements ActionListener {
-	
+
 	private JHelpText userName,password,apiKey;
 	private JSpinner updateInterval;
 	private JComboBox updaterList;
 	private JLabel apiKeyLabel;
 	private SettingsManager settings;
-	
+
 	public SwingSettings() {
 		super((Frame)null,"Yapılandırma",true);
 		settings=SettingsManager.getInstance();

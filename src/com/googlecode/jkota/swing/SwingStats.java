@@ -34,14 +34,14 @@ public class SwingStats extends JFrame {
 		}
 
 		JFreeChart chart = ChartFactory.createLineChart(
-			null,
-			"Ay",
-			"Miktar ("+viewUnit+")",
-			dataset,
-			PlotOrientation.VERTICAL,
-			true,
-			true,
-			false
+				null,
+				"Ay",
+				"Miktar ("+viewUnit+")",
+				dataset,
+				PlotOrientation.VERTICAL,
+				true,
+				true,
+				false
 		);
 		chart.setAntiAlias(true);
 		ChartPanel chartPanel = new ChartPanel(chart);

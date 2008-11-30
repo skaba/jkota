@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 
 public class JHelpText extends JPanel {
-	
+
 	private JTextField input;
 	private JLabel helpButton;
 	private static Color DEFAULT_COLOR;
