@@ -48,13 +48,4 @@ public abstract class BaseKota extends DownloadNotificationAdapter {
 			60000*settings.getIntSetting("updateinterval",10)
 		);
 	}
-
-	public void viewLogFile() {
-		Desktop desktop = Desktop.getDesktop();
-		try {
-			desktop.open(new File(LogManager.LOG_FILE));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }

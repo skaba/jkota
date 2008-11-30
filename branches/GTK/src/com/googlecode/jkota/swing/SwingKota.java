@@ -1,6 +1,7 @@
 package com.googlecode.jkota.swing;
 
 import java.awt.AWTException;
+import java.awt.Desktop;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -12,6 +13,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.JOptionPane;
@@ -22,6 +25,7 @@ import com.googlecode.jkota.BaseKota;
 import com.googlecode.jkota.DownloadNotificationEvent;
 import com.googlecode.jkota.DownloadNotificationListener;
 import com.googlecode.jkota.DownloadNotificationType;
+import com.googlecode.jkota.LogManager;
 import com.googlecode.jkota.SettingsManager;
 
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner,DownloadNotificationListener {
@@ -43,6 +47,15 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 				}
 			}
 		);
+	}
+	
+	public void viewLogFile() {
+		Desktop desktop = Desktop.getDesktop();
+		try {
+			desktop.open(new File(LogManager.LOG_FILE));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
