@@ -1,5 +1,7 @@
 package com.googlecode.jkota.gtk;
 
+import static com.googlecode.jkota.gtk.GtkUtil.error;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -66,7 +68,7 @@ public class GtkKota extends BaseKota {
 
 	@Override
 	public void showError(Exception e) {
-		GtkUtil.error(null, e, "HATA");
+		error(null, e, "HATA");
 	}
 
 	@Override
@@ -88,24 +90,25 @@ public class GtkKota extends BaseKota {
 				preQuit();
 				Gtk.mainQuit();
 			}
-			if(source==logfile)
+			if(source==logfile) {
 				try {
 					Gtk.showURI(new URI("file://"+LogManager.LOG_FILE));
 				} catch (URISyntaxException e) { }
-				if(source==about) {
-					AboutDialog about=new AboutDialog();
-					about.setComments("İnternet kota kontrol Programı");
-					about.setCopyright("© 2007 Serkan Kaba");
-					about.setProgramName("JKota");
-					about.setAuthors(new String[] {"Serkan Kaba <serkan_kaba@yahoo.com>"});
-					about.showAll();
-					about.run();
-				}
-				if(source==clipboard) {
-					Clipboard clipboard=Clipboard.getDefault();
-					clipboard.setText(quotaText);
-				}
+			}
+			if(source==about) {
+				AboutDialog about=new AboutDialog();
+				about.setComments("İnternet kota kontrol Programı");
+				about.setCopyright("© 2007 Serkan Kaba");
+				about.setProgramName("JKota");
+				about.setAuthors(new String[] {"Serkan Kaba <serkan_kaba@yahoo.com>"});
+				about.showAll();
+				about.run();
+			}
+			if(source==clipboard) {
+				Clipboard clipboard=Clipboard.getDefault();
+				clipboard.setText(quotaText);
+			}
+
 		}
 	}
-
 }

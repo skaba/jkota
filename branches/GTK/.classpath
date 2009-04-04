@@ -7,10 +7,6 @@
 	<classpathentry kind="lib" path="lib/Tidy.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart.jar"/>
-	<classpathentry kind="lib" path="lib/gtk.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jkota/lib"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="/java-gnome/tmp/gtk-4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
