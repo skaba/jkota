@@ -11,11 +11,16 @@ import org.gnome.gtk.Gtk;
 import org.gnome.gtk.Menu;
 import org.gnome.gtk.MenuItem;
 import org.gnome.gtk.StatusIcon;
+import org.gnome.notify.Notification;
+import org.gnome.notify.Notify;
 
 import com.googlecode.jkota.BaseKota;
+import com.googlecode.jkota.DownloadNotificationEvent;
+import com.googlecode.jkota.DownloadNotificationListener;
+import com.googlecode.jkota.DownloadNotificationType;
 import com.googlecode.jkota.LogManager;
 
-public class GtkKota extends BaseKota {
+public class GtkKota extends BaseKota implements DownloadNotificationListener {
 
 	private MenuItem quit,settings,about,logfile,clipboard,statistics;
 	private StatusIcon icon;
@@ -25,6 +30,16 @@ public class GtkKota extends BaseKota {
 	public void firstTime() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void notification(DownloadNotificationEvent e) {
+		Notification notification=null;
+		if(e.getType()==DownloadNotificationType.WARNING)
+			notification=new Notification("UYARI",e.getMessage(),"messagebox_warning",icon);
+		if(e.getType()==DownloadNotificationType.INFO)
+			notification=new Notification("BİLGİ",e.getMessage(),"messagebox_info",icon);
+		notification.show();
 	}
 
 	@Override
@@ -79,6 +94,7 @@ public class GtkKota extends BaseKota {
 
 	public static void main(String[] args) {
 		Gtk.init(args);
+		Notify.init("jkota");
 		new GtkKota();
 		Gtk.main();
 	}
@@ -88,6 +104,7 @@ public class GtkKota extends BaseKota {
 		public void onActivate(MenuItem source) {
 			if(source==quit) {
 				preQuit();
+				Notify.uninit();
 				Gtk.mainQuit();
 			}
 			if(source==logfile) {
