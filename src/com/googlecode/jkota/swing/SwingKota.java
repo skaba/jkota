@@ -1,5 +1,7 @@
 package com.googlecode.jkota.swing;
 
+import static com.googlecode.jkota.swing.SwingUtil.error;
+
 import java.awt.AWTException;
 import java.awt.Desktop;
 import java.awt.MenuItem;
@@ -27,6 +29,7 @@ import com.googlecode.jkota.DownloadNotificationListener;
 import com.googlecode.jkota.DownloadNotificationType;
 import com.googlecode.jkota.LogManager;
 import com.googlecode.jkota.SettingsManager;
+
 
 public class SwingKota extends BaseKota implements ActionListener, ClipboardOwner,DownloadNotificationListener {
 
@@ -136,7 +139,7 @@ public class SwingKota extends BaseKota implements ActionListener, ClipboardOwne
 
 	@Override
 	public void showError(Exception e) {
-		SwingUtil.error(null, e,"HATA");
+		error(null, e,"HATA");
 	}
 
 	@Override
